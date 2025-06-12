@@ -39,7 +39,7 @@ namespace EMR_SantaClotilde
             rtbResultado = new RichTextBox();
             btnActualizar = new Button();
             btnModificar = new Button();
-            label1 = new Label();
+            lblListaResultadosMedicos = new Label();
             pcbPacientes = new PictureBox();
             lblInicio = new Label();
             lblPacientes = new Label();
@@ -47,6 +47,7 @@ namespace EMR_SantaClotilde
             lblCitas = new Label();
             panel1 = new Panel();
             pictureBox3 = new PictureBox();
+            lblArchivoAdjunto = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pcbPacientes).BeginInit();
@@ -96,7 +97,7 @@ namespace EMR_SantaClotilde
             btnAgregar.FlatStyle = FlatStyle.Flat;
             btnAgregar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAgregar.ForeColor = Color.White;
-            btnAgregar.Location = new Point(37, 408);
+            btnAgregar.Location = new Point(37, 464);
             btnAgregar.Margin = new Padding(3, 2, 3, 2);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(93, 45);
@@ -113,7 +114,7 @@ namespace EMR_SantaClotilde
             dgvResultados.Name = "dgvResultados";
             dgvResultados.RowHeadersWidth = 51;
             dgvResultados.RowTemplate.Height = 29;
-            dgvResultados.Size = new Size(485, 323);
+            dgvResultados.Size = new Size(485, 359);
             dgvResultados.TabIndex = 9;
             // 
             // pictureBox2
@@ -281,7 +282,7 @@ namespace EMR_SantaClotilde
             btnActualizar.FlatStyle = FlatStyle.Flat;
             btnActualizar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnActualizar.ForeColor = SystemColors.ControlText;
-            btnActualizar.Location = new Point(145, 408);
+            btnActualizar.Location = new Point(145, 464);
             btnActualizar.Margin = new Padding(3, 2, 3, 2);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(93, 45);
@@ -298,7 +299,7 @@ namespace EMR_SantaClotilde
             btnModificar.FlatStyle = FlatStyle.Flat;
             btnModificar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnModificar.ForeColor = Color.White;
-            btnModificar.Location = new Point(255, 408);
+            btnModificar.Location = new Point(255, 464);
             btnModificar.Margin = new Padding(3, 2, 3, 2);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(93, 45);
@@ -307,16 +308,16 @@ namespace EMR_SantaClotilde
             btnModificar.UseVisualStyleBackColor = false;
             btnModificar.Click += btnModificar_Click;
             // 
-            // label1
+            // lblListaResultadosMedicos
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Ebrima", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.Teal;
-            label1.Location = new Point(601, 108);
-            label1.Name = "label1";
-            label1.Size = new Size(187, 17);
-            label1.TabIndex = 38;
-            label1.Text = "Listado de resultados médicos";
+            lblListaResultadosMedicos.AutoSize = true;
+            lblListaResultadosMedicos.Font = new Font("Ebrima", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblListaResultadosMedicos.ForeColor = Color.Teal;
+            lblListaResultadosMedicos.Location = new Point(601, 108);
+            lblListaResultadosMedicos.Name = "lblListaResultadosMedicos";
+            lblListaResultadosMedicos.Size = new Size(187, 17);
+            lblListaResultadosMedicos.TabIndex = 38;
+            lblListaResultadosMedicos.Text = "Listado de resultados médicos";
             // 
             // pcbPacientes
             // 
@@ -399,13 +400,25 @@ namespace EMR_SantaClotilde
             pictureBox3.TabIndex = 69;
             pictureBox3.TabStop = false;
             // 
+            // lblArchivoAdjunto
+            // 
+            lblArchivoAdjunto.AutoSize = true;
+            lblArchivoAdjunto.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
+            lblArchivoAdjunto.ForeColor = Color.CadetBlue;
+            lblArchivoAdjunto.Location = new Point(37, 401);
+            lblArchivoAdjunto.Name = "lblArchivoAdjunto";
+            lblArchivoAdjunto.Size = new Size(116, 19);
+            lblArchivoAdjunto.TabIndex = 39;
+            lblArchivoAdjunto.Text = "Archivo adjunto";
+            // 
             // Resultados
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(970, 498);
-            Controls.Add(label1);
+            ClientSize = new Size(970, 537);
+            Controls.Add(lblArchivoAdjunto);
+            Controls.Add(lblListaResultadosMedicos);
             Controls.Add(btnModificar);
             Controls.Add(btnActualizar);
             Controls.Add(rtbResultado);
@@ -472,7 +485,7 @@ namespace EMR_SantaClotilde
         private RichTextBox rtbResultado;
         private Button btnActualizar;
         private Button btnModificar;
-        private Label label1;
+        private Label lblListaResultadosMedicos;
         private PictureBox pcbPacientes;
         private Label lblInicio;
         private Label lblPacientes;
@@ -480,5 +493,6 @@ namespace EMR_SantaClotilde
         private Label lblCitas;
         private Panel panel1;
         private PictureBox pictureBox3;
+        private Label lblArchivoAdjunto;
     }
 }
