@@ -416,7 +416,7 @@ namespace EMR_SantaClotilde
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(970, 537);
+            ClientSize = new Size(970, 527);
             Controls.Add(lblArchivoAdjunto);
             Controls.Add(lblListaResultadosMedicos);
             Controls.Add(btnModificar);
