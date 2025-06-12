@@ -20,13 +20,6 @@ namespace EMR_SantaClotilde
             lblDiagnostico = new Label();
             btnAgregar = new Button();
             dgvResultados = new DataGridView();
-            panel1 = new Panel();
-            lblCitas = new Label();
-            pictureBox1 = new PictureBox();
-            pcbInicio = new PictureBox();
-            lblPacientes = new Label();
-            lblInicio = new Label();
-            pcbPacientes = new PictureBox();
             pictureBox2 = new PictureBox();
             cmbPaciente = new ComboBox();
             cmbCita = new ComboBox();
@@ -47,12 +40,19 @@ namespace EMR_SantaClotilde
             btnActualizar = new Button();
             btnModificar = new Button();
             label1 = new Label();
+            pcbPacientes = new PictureBox();
+            lblInicio = new Label();
+            lblPacientes = new Label();
+            pcbInicio = new PictureBox();
+            lblCitas = new Label();
+            panel1 = new Panel();
+            pictureBox3 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pcbInicio).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pcbPacientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pcbPacientes).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pcbInicio).BeginInit();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // lblTitulo
@@ -116,91 +116,10 @@ namespace EMR_SantaClotilde
             dgvResultados.Size = new Size(485, 323);
             dgvResultados.TabIndex = 9;
             // 
-            // panel1
-            // 
-            panel1.BackColor = Color.White;
-            panel1.Controls.Add(lblCitas);
-            panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(pcbInicio);
-            panel1.Controls.Add(lblPacientes);
-            panel1.Controls.Add(lblInicio);
-            panel1.Controls.Add(pcbPacientes);
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(970, 52);
-            panel1.TabIndex = 10;
-            // 
-            // lblCitas
-            // 
-            lblCitas.AutoSize = true;
-            lblCitas.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
-            lblCitas.ForeColor = Color.CadetBlue;
-            lblCitas.Location = new Point(628, 21);
-            lblCitas.Name = "lblCitas";
-            lblCitas.Size = new Size(41, 19);
-            lblCitas.TabIndex = 15;
-            lblCitas.Text = "Citas";
-            lblCitas.Click += lblCitas_Click;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = Properties.Resources.citas;
-            pictureBox1.Location = new Point(590, 11);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(32, 33);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 14;
-            pictureBox1.TabStop = false;
-            // 
-            // pcbInicio
-            // 
-            pcbInicio.Image = Properties.Resources.home;
-            pcbInicio.Location = new Point(316, 11);
-            pcbInicio.Name = "pcbInicio";
-            pcbInicio.Size = new Size(32, 33);
-            pcbInicio.SizeMode = PictureBoxSizeMode.Zoom;
-            pcbInicio.TabIndex = 13;
-            pcbInicio.TabStop = false;
-            // 
-            // lblPacientes
-            // 
-            lblPacientes.AutoSize = true;
-            lblPacientes.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
-            lblPacientes.ForeColor = Color.CadetBlue;
-            lblPacientes.Location = new Point(486, 21);
-            lblPacientes.Name = "lblPacientes";
-            lblPacientes.Size = new Size(72, 19);
-            lblPacientes.TabIndex = 12;
-            lblPacientes.Text = "Pacientes";
-            lblPacientes.Click += lblPacientes_Click;
-            // 
-            // lblInicio
-            // 
-            lblInicio.AutoSize = true;
-            lblInicio.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
-            lblInicio.ForeColor = Color.CadetBlue;
-            lblInicio.Location = new Point(354, 21);
-            lblInicio.Name = "lblInicio";
-            lblInicio.Size = new Size(45, 19);
-            lblInicio.TabIndex = 11;
-            lblInicio.Text = "Inicio";
-            lblInicio.Click += lblInicio_Click;
-            // 
-            // pcbPacientes
-            // 
-            pcbPacientes.Image = Properties.Resources.paciente;
-            pcbPacientes.Location = new Point(448, 11);
-            pcbPacientes.Name = "pcbPacientes";
-            pcbPacientes.Size = new Size(32, 33);
-            pcbPacientes.SizeMode = PictureBoxSizeMode.Zoom;
-            pcbPacientes.TabIndex = 5;
-            pcbPacientes.TabStop = false;
-            // 
             // pictureBox2
             // 
             pictureBox2.Image = Properties.Resources.resultado;
-            pictureBox2.Location = new Point(167, 58);
+            pictureBox2.Location = new Point(173, 58);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(46, 34);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
@@ -399,6 +318,87 @@ namespace EMR_SantaClotilde
             label1.TabIndex = 38;
             label1.Text = "Listado de resultados médicos";
             // 
+            // pcbPacientes
+            // 
+            pcbPacientes.Image = Properties.Resources.paciente;
+            pcbPacientes.Location = new Point(448, 11);
+            pcbPacientes.Name = "pcbPacientes";
+            pcbPacientes.Size = new Size(32, 33);
+            pcbPacientes.SizeMode = PictureBoxSizeMode.Zoom;
+            pcbPacientes.TabIndex = 5;
+            pcbPacientes.TabStop = false;
+            // 
+            // lblInicio
+            // 
+            lblInicio.AutoSize = true;
+            lblInicio.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
+            lblInicio.ForeColor = Color.CadetBlue;
+            lblInicio.Location = new Point(354, 21);
+            lblInicio.Name = "lblInicio";
+            lblInicio.Size = new Size(45, 19);
+            lblInicio.TabIndex = 11;
+            lblInicio.Text = "Inicio";
+            lblInicio.Click += lblInicio_Click;
+            // 
+            // lblPacientes
+            // 
+            lblPacientes.AutoSize = true;
+            lblPacientes.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
+            lblPacientes.ForeColor = Color.CadetBlue;
+            lblPacientes.Location = new Point(486, 21);
+            lblPacientes.Name = "lblPacientes";
+            lblPacientes.Size = new Size(72, 19);
+            lblPacientes.TabIndex = 12;
+            lblPacientes.Text = "Pacientes";
+            lblPacientes.Click += lblPacientes_Click;
+            // 
+            // pcbInicio
+            // 
+            pcbInicio.Image = Properties.Resources.home;
+            pcbInicio.Location = new Point(316, 11);
+            pcbInicio.Name = "pcbInicio";
+            pcbInicio.Size = new Size(32, 33);
+            pcbInicio.SizeMode = PictureBoxSizeMode.Zoom;
+            pcbInicio.TabIndex = 13;
+            pcbInicio.TabStop = false;
+            // 
+            // lblCitas
+            // 
+            lblCitas.AutoSize = true;
+            lblCitas.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
+            lblCitas.ForeColor = Color.CadetBlue;
+            lblCitas.Location = new Point(628, 21);
+            lblCitas.Name = "lblCitas";
+            lblCitas.Size = new Size(41, 19);
+            lblCitas.TabIndex = 15;
+            lblCitas.Text = "Citas";
+            lblCitas.Click += lblCitas_Click;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.White;
+            panel1.Controls.Add(pictureBox3);
+            panel1.Controls.Add(lblCitas);
+            panel1.Controls.Add(pcbInicio);
+            panel1.Controls.Add(lblPacientes);
+            panel1.Controls.Add(lblInicio);
+            panel1.Controls.Add(pcbPacientes);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(970, 52);
+            panel1.TabIndex = 10;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = Properties.Resources.citas;
+            pictureBox3.Location = new Point(590, 8);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(41, 41);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 69;
+            pictureBox3.TabStop = false;
+            // 
             // Resultados
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -436,12 +436,12 @@ namespace EMR_SantaClotilde
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Resultados Médicos";
             ((System.ComponentModel.ISupportInitialize)dgvResultados).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pcbPacientes).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pcbInicio).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pcbInicio).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pcbPacientes).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -453,13 +453,6 @@ namespace EMR_SantaClotilde
         private Label lblDiagnostico;
         private Button btnAgregar;
         private DataGridView dgvResultados;
-        private Panel panel1;
-        private PictureBox pcbPacientes;
-        private Label lblInicio;
-        private Label lblPacientes;
-        private PictureBox pcbInicio;
-        private PictureBox pictureBox1;
-        private Label lblCitas;
         private PictureBox pictureBox2;
         private ComboBox cmbPaciente;
         private ComboBox cmbCita;
@@ -480,5 +473,12 @@ namespace EMR_SantaClotilde
         private Button btnActualizar;
         private Button btnModificar;
         private Label label1;
+        private PictureBox pcbPacientes;
+        private Label lblInicio;
+        private Label lblPacientes;
+        private PictureBox pcbInicio;
+        private Label lblCitas;
+        private Panel panel1;
+        private PictureBox pictureBox3;
     }
 }

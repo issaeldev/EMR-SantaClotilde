@@ -43,7 +43,6 @@
             cmbMedico = new ComboBox();
             lblMedico = new Label();
             cmbPaciente = new ComboBox();
-            pictureBox2 = new PictureBox();
             panel1 = new Panel();
             lblResultados = new Label();
             pictureBox1 = new PictureBox();
@@ -58,12 +57,13 @@
             cmbMotivo = new ComboBox();
             richTextBox1 = new RichTextBox();
             label2 = new Label();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            pictureBox3 = new PictureBox();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pcbInicio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pcbPacientes).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -224,16 +224,6 @@
             cmbPaciente.Size = new Size(143, 23);
             cmbPaciente.TabIndex = 46;
             // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = Properties.Resources.resultado;
-            pictureBox2.Location = new Point(171, 69);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(46, 34);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 45;
-            pictureBox2.TabStop = false;
-            // 
             // panel1
             // 
             panel1.BackColor = Color.White;
@@ -392,11 +382,22 @@
             label2.TabIndex = 66;
             label2.Text = "Adicional motivo";
             // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = Properties.Resources.citas;
+            pictureBox3.Location = new Point(167, 69);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(57, 43);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 68;
+            pictureBox3.TabStop = false;
+            // 
             // Citas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(985, 533);
+            Controls.Add(pictureBox3);
             Controls.Add(richTextBox1);
             Controls.Add(label2);
             Controls.Add(cmbMotivo);
@@ -415,7 +416,6 @@
             Controls.Add(cmbMedico);
             Controls.Add(lblMedico);
             Controls.Add(cmbPaciente);
-            Controls.Add(pictureBox2);
             Controls.Add(panel1);
             Controls.Add(dgvResultados);
             Controls.Add(btnAgregar);
@@ -424,13 +424,13 @@
             Name = "Citas";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pcbInicio).EndInit();
             ((System.ComponentModel.ISupportInitialize)pcbPacientes).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -452,7 +452,6 @@
         private ComboBox cmbMedico;
         private Label lblMedico;
         private ComboBox cmbPaciente;
-        private PictureBox pictureBox2;
         private Panel panel1;
         private Label lblResultados;
         private PictureBox pictureBox1;
@@ -467,5 +466,6 @@
         private ComboBox cmbMotivo;
         private RichTextBox richTextBox1;
         private Label label2;
+        private PictureBox pictureBox3;
     }
 }
