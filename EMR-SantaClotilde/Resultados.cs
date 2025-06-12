@@ -9,11 +9,9 @@ namespace EMR_SantaClotilde
         {
             InitializeComponent();
         }
-
-        private void btnCrear_Click(object sender, EventArgs e)
+        private void btnAgregar_Click(object sender, EventArgs e)
         {
-            // Lógica de interfaz al hacer clic en Crear (a implementar luego)
-            MessageBox.Show("Crear resultado...");
+            MessageBox.Show("Agregar resultado...");
         }
         private void btnActualizar_Click(object sender, EventArgs e)
         {
@@ -53,7 +51,5 @@ namespace EMR_SantaClotilde
             citas.Show();
             this.Hide();
         }
-
-
     }
 }

@@ -43,7 +43,7 @@ namespace EMR_SantaClotilde
             cmbUnidadMedida = new ComboBox();
             lblUnidadMedida = new Label();
             lblResultado = new Label();
-            richTextBox1 = new RichTextBox();
+            rtbResultado = new RichTextBox();
             btnActualizar = new Button();
             btnModificar = new Button();
             label1 = new Label();
@@ -64,7 +64,7 @@ namespace EMR_SantaClotilde
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(161, 21);
             lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "Resultados Médicos";
+            lblTitulo.Text = "Resultados médicos";
             // 
             // lblConsultaId
             // 
@@ -103,7 +103,7 @@ namespace EMR_SantaClotilde
             btnAgregar.TabIndex = 5;
             btnAgregar.Text = "Agregar";
             btnAgregar.UseVisualStyleBackColor = false;
-            btnAgregar.Click += btnCrear_Click;
+            btnAgregar.Click += btnAgregar_Click;
             // 
             // dgvResultados
             // 
@@ -346,13 +346,13 @@ namespace EMR_SantaClotilde
             lblResultado.TabIndex = 34;
             lblResultado.Text = "Resultado";
             // 
-            // richTextBox1
+            // rtbResultado
             // 
-            richTextBox1.Location = new Point(205, 246);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(143, 82);
-            richTextBox1.TabIndex = 35;
-            richTextBox1.Text = "";
+            rtbResultado.Location = new Point(205, 246);
+            rtbResultado.Name = "rtbResultado";
+            rtbResultado.Size = new Size(143, 82);
+            rtbResultado.TabIndex = 35;
+            rtbResultado.Text = "";
             // 
             // btnActualizar
             // 
@@ -408,7 +408,7 @@ namespace EMR_SantaClotilde
             Controls.Add(label1);
             Controls.Add(btnModificar);
             Controls.Add(btnActualizar);
-            Controls.Add(richTextBox1);
+            Controls.Add(rtbResultado);
             Controls.Add(lblResultado);
             Controls.Add(cmbUnidadMedida);
             Controls.Add(lblUnidadMedida);
@@ -476,7 +476,7 @@ namespace EMR_SantaClotilde
         private ComboBox cmbUnidadMedida;
         private Label lblUnidadMedida;
         private Label lblResultado;
-        private RichTextBox richTextBox1;
+        private RichTextBox rtbResultado;
         private Button btnActualizar;
         private Button btnModificar;
         private Label label1;
