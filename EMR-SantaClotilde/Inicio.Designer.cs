@@ -48,9 +48,10 @@
             lstAgenda.Columns.AddRange(new ColumnHeader[] { clmHora, clmPaciente, clmDetalle });
             lstAgenda.Font = new Font("Ebrima", 9F);
             lstAgenda.FullRowSelect = true;
-            lstAgenda.Location = new Point(303, 187);
+            lstAgenda.Location = new Point(265, 140);
+            lstAgenda.Margin = new Padding(3, 2, 3, 2);
             lstAgenda.Name = "lstAgenda";
-            lstAgenda.Size = new Size(265, 155);
+            lstAgenda.Size = new Size(364, 128);
             lstAgenda.TabIndex = 4;
             lstAgenda.UseCompatibleStateImageBehavior = false;
             lstAgenda.View = View.Details;
@@ -77,16 +78,19 @@
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(250, 450);
+            panel1.Size = new Size(219, 338);
             panel1.TabIndex = 0;
             // 
             // btnPaciente
             // 
-            btnPaciente.Font = new Font("Ebrima", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnPaciente.Location = new Point(33, 29);
+            btnPaciente.Font = new Font("Ebrima", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnPaciente.ForeColor = SystemColors.ControlText;
+            btnPaciente.Location = new Point(29, 22);
+            btnPaciente.Margin = new Padding(3, 2, 3, 2);
             btnPaciente.Name = "btnPaciente";
-            btnPaciente.Size = new Size(185, 58);
+            btnPaciente.Size = new Size(162, 44);
             btnPaciente.TabIndex = 1;
             btnPaciente.Text = "PACIENTE";
             btnPaciente.UseVisualStyleBackColor = true;
@@ -95,9 +99,10 @@
             // 
             pictureBox1.BackColor = Color.Transparent;
             pictureBox1.Image = Properties.Resources.user_128;
-            pictureBox1.Location = new Point(708, 12);
+            pictureBox1.Location = new Point(620, 9);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(71, 58);
+            pictureBox1.Size = new Size(62, 44);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -105,9 +110,10 @@
             // pictureBox2
             // 
             pictureBox2.Image = Properties.Resources.user_128;
-            pictureBox2.Location = new Point(740, 12);
+            pictureBox2.Location = new Point(648, 9);
+            pictureBox2.Margin = new Padding(3, 2, 3, 2);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(48, 45);
+            pictureBox2.Size = new Size(42, 34);
             pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox2.TabIndex = 1;
             pictureBox2.TabStop = false;
@@ -117,9 +123,9 @@
             lblBienvenido.AutoSize = true;
             lblBienvenido.Font = new Font("Ebrima", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblBienvenido.ForeColor = Color.CadetBlue;
-            lblBienvenido.Location = new Point(372, 42);
+            lblBienvenido.Location = new Point(330, 45);
             lblBienvenido.Name = "lblBienvenido";
-            lblBienvenido.Size = new Size(129, 28);
+            lblBienvenido.Size = new Size(105, 21);
             lblBienvenido.TabIndex = 2;
             lblBienvenido.Text = "Bienvenido, ";
             // 
@@ -127,24 +133,25 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Ebrima", 10F);
-            label1.Location = new Point(400, 140);
+            label1.Location = new Point(419, 108);
             label1.Name = "label1";
-            label1.Size = new Size(57, 23);
+            label1.Size = new Size(46, 19);
             label1.TabIndex = 3;
             label1.Text = "Tu dia";
             // 
             // Inicio
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
             Controls.Add(lstAgenda);
             Controls.Add(label1);
             Controls.Add(lblBienvenido);
             Controls.Add(pictureBox2);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Inicio";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";

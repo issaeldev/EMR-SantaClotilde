@@ -1,9 +1,33 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\issael\\source\\repos\\EMR-SantaClotilde\\",
+  "WorkspaceRootPath": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|c:\\users\\issael\\source\\repos\\emr-santaclotilde\\emr-santaclotilde\\emr-santaclotilde.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "AbsoluteMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|c:\\users\\rocke\\source\\repos\\issaeldev\\emr-santaclotilde\\emr-santaclotilde\\resultados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|solutionrelative:emr-santaclotilde\\resultados.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|c:\\users\\rocke\\source\\repos\\issaeldev\\emr-santaclotilde\\emr-santaclotilde\\login.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|solutionrelative:emr-santaclotilde\\login.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|c:\\users\\rocke\\source\\repos\\issaeldev\\emr-santaclotilde\\emr-santaclotilde\\inicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|solutionrelative:emr-santaclotilde\\inicio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|c:\\users\\rocke\\source\\repos\\issaeldev\\emr-santaclotilde\\emr-santaclotilde\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|solutionrelative:emr-santaclotilde\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|c:\\users\\rocke\\source\\repos\\issaeldev\\emr-santaclotilde\\emr-santaclotilde\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|solutionrelative:emr-santaclotilde\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|c:\\users\\rocke\\source\\repos\\issaeldev\\emr-santaclotilde\\emr-santaclotilde\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|solutionrelative:emr-santaclotilde\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|c:\\users\\rocke\\source\\repos\\issaeldev\\emr-santaclotilde\\emr-santaclotilde\\emr-santaclotilde.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
       "RelativeMoniker": "D:0:0:{975D3478-F4E5-49D4-B97F-D89B0FCA37DD}|EMR-SantaClotilde\\EMR-SantaClotilde.csproj|solutionrelative:emr-santaclotilde\\emr-santaclotilde.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     }
   ],
@@ -14,17 +38,92 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Login.Designer.cs",
+              "RelativeDocumentMoniker": "EMR-SantaClotilde\\Login.Designer.cs",
+              "ToolTip": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Login.Designer.cs",
+              "RelativeToolTip": "EMR-SantaClotilde\\Login.Designer.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T19:46:16.499Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Program.cs",
+              "RelativeDocumentMoniker": "EMR-SantaClotilde\\Program.cs",
+              "ToolTip": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Program.cs",
+              "RelativeToolTip": "EMR-SantaClotilde\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T19:45:36.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Login.cs",
+              "RelativeDocumentMoniker": "EMR-SantaClotilde\\Login.cs",
+              "ToolTip": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Login.cs",
+              "RelativeToolTip": "EMR-SantaClotilde\\Login.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T19:44:22.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Inicio.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Inicio.cs",
+              "RelativeDocumentMoniker": "EMR-SantaClotilde\\Inicio.cs",
+              "ToolTip": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Inicio.cs [Dise\u00F1o]",
+              "RelativeToolTip": "EMR-SantaClotilde\\Inicio.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T19:44:11.603Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Login.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Login.cs",
+              "RelativeDocumentMoniker": "EMR-SantaClotilde\\Login.cs",
+              "ToolTip": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Login.cs [Dise\u00F1o]",
+              "RelativeToolTip": "EMR-SantaClotilde\\Login.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T19:44:10.385Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Resultados.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Resultados.cs",
+              "RelativeDocumentMoniker": "EMR-SantaClotilde\\Resultados.cs",
+              "ToolTip": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\Resultados.cs [Dise\u00F1o]",
+              "RelativeToolTip": "EMR-SantaClotilde\\Resultados.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T14:04:25.292Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "EMR-SantaClotilde.csproj",
-              "DocumentMoniker": "C:\\Users\\issael\\source\\repos\\EMR-SantaClotilde\\EMR-SantaClotilde\\EMR-SantaClotilde.csproj",
+              "DocumentMoniker": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\EMR-SantaClotilde.csproj",
               "RelativeDocumentMoniker": "EMR-SantaClotilde\\EMR-SantaClotilde.csproj",
-              "ToolTip": "C:\\Users\\issael\\source\\repos\\EMR-SantaClotilde\\EMR-SantaClotilde\\EMR-SantaClotilde.csproj",
+              "ToolTip": "C:\\Users\\rocke\\source\\repos\\issaeldev\\EMR-SantaClotilde\\EMR-SantaClotilde\\EMR-SantaClotilde.csproj",
               "RelativeToolTip": "EMR-SantaClotilde\\EMR-SantaClotilde.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2025-06-12T13:14:31.381Z",
               "EditorCaption": ""
