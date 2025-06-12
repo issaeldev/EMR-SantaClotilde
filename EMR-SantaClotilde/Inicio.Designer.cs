@@ -33,7 +33,9 @@
             clmPaciente = new ColumnHeader();
             clmDetalle = new ColumnHeader();
             panel1 = new Panel();
-            btnPaciente = new Button();
+            BtnResultados = new Button();
+            BtnCitas = new Button();
+            btnPacientes = new Button();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             lblBienvenido = new Label();
@@ -48,7 +50,7 @@
             lstAgenda.Columns.AddRange(new ColumnHeader[] { clmHora, clmPaciente, clmDetalle });
             lstAgenda.Font = new Font("Ebrima", 9F);
             lstAgenda.FullRowSelect = true;
-            lstAgenda.Location = new Point(265, 140);
+            lstAgenda.Location = new Point(287, 141);
             lstAgenda.Margin = new Padding(3, 2, 3, 2);
             lstAgenda.Name = "lstAgenda";
             lstAgenda.Size = new Size(364, 128);
@@ -74,26 +76,50 @@
             // panel1
             // 
             panel1.BackColor = Color.CadetBlue;
-            panel1.Controls.Add(btnPaciente);
+            panel1.Controls.Add(BtnResultados);
+            panel1.Controls.Add(BtnCitas);
+            panel1.Controls.Add(btnPacientes);
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(3, 2, 3, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(219, 338);
+            panel1.Size = new Size(234, 338);
             panel1.TabIndex = 0;
             // 
-            // btnPaciente
+            // BtnResultados
             // 
-            btnPaciente.Font = new Font("Ebrima", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnPaciente.ForeColor = SystemColors.ControlText;
-            btnPaciente.Location = new Point(29, 22);
-            btnPaciente.Margin = new Padding(3, 2, 3, 2);
-            btnPaciente.Name = "btnPaciente";
-            btnPaciente.Size = new Size(162, 44);
-            btnPaciente.TabIndex = 1;
-            btnPaciente.Text = "PACIENTE";
-            btnPaciente.UseVisualStyleBackColor = true;
+            BtnResultados.Font = new Font("Ebrima", 11.25F, FontStyle.Bold);
+            BtnResultados.Location = new Point(29, 209);
+            BtnResultados.Name = "BtnResultados";
+            BtnResultados.Size = new Size(162, 43);
+            BtnResultados.TabIndex = 3;
+            BtnResultados.Text = "RESULTADOS";
+            BtnResultados.UseVisualStyleBackColor = true;
+            BtnResultados.Click += BtnResultados_Click;
+            // 
+            // BtnCitas
+            // 
+            BtnCitas.Font = new Font("Ebrima", 11.25F, FontStyle.Bold);
+            BtnCitas.Location = new Point(29, 126);
+            BtnCitas.Name = "BtnCitas";
+            BtnCitas.Size = new Size(162, 43);
+            BtnCitas.TabIndex = 2;
+            BtnCitas.Text = "CITAS";
+            BtnCitas.UseVisualStyleBackColor = true;
+            BtnCitas.Click += BtnCitas_Click;
+            // 
+            // btnPacientes
+            // 
+            btnPacientes.Font = new Font("Ebrima", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnPacientes.ForeColor = SystemColors.ControlText;
+            btnPacientes.Location = new Point(29, 45);
+            btnPacientes.Margin = new Padding(3, 2, 3, 2);
+            btnPacientes.Name = "btnPacientes";
+            btnPacientes.Size = new Size(162, 44);
+            btnPacientes.TabIndex = 1;
+            btnPacientes.Text = "PACIENTES";
+            btnPacientes.UseVisualStyleBackColor = true;
             // 
             // pictureBox1
             // 
@@ -123,7 +149,7 @@
             lblBienvenido.AutoSize = true;
             lblBienvenido.Font = new Font("Ebrima", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblBienvenido.ForeColor = Color.CadetBlue;
-            lblBienvenido.Location = new Point(330, 45);
+            lblBienvenido.Location = new Point(342, 45);
             lblBienvenido.Name = "lblBienvenido";
             lblBienvenido.Size = new Size(105, 21);
             lblBienvenido.TabIndex = 2;
@@ -133,7 +159,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Ebrima", 10F);
-            label1.Location = new Point(419, 108);
+            label1.Location = new Point(441, 109);
             label1.Name = "label1";
             label1.Size = new Size(46, 19);
             label1.TabIndex = 3;
@@ -191,7 +217,7 @@
 
 		private Panel panel1;
         private PictureBox pictureBox1;
-        private Button btnPaciente;
+        private Button btnPacientes;
         private PictureBox pictureBox2;
         private Label lblBienvenido;
         private Label label1;
@@ -199,6 +225,8 @@
         private ColumnHeader clmHora;
         private ColumnHeader clmPaciente;
         private ColumnHeader clmDetalle;
+        private Button BtnResultados;
+        private Button BtnCitas;
     }
 }
 
