@@ -176,7 +176,6 @@
             Controls.Add(lblBienvenido);
             Controls.Add(pictureBox2);
             Controls.Add(panel1);
-            FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 2, 3, 2);
             Name = "Inicio";
             StartPosition = FormStartPosition.CenterScreen;

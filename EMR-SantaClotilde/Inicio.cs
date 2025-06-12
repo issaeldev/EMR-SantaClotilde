@@ -19,32 +19,27 @@ namespace EMR_SantaClotilde
 
         private void btnPacientes_Click(object sender, EventArgs e)
         {
-            // Crear una nueva instancia del segundo formulario
-            // Paciente pacientes = new Paciente();
+            // Pacientes pacientes = new Pacientes();
 
-            // Si quieres abrir el formulario y cerrar el actual:
             // pacientes.Show();
-            // this.Hide();  // Oculta el formulario actual
+            // this.Hide(); 
         }
 
         private void BtnCitas_Click(object sender, EventArgs e)
         {
             // Crear una nueva instancia del segundo formulario
-            // Cita citas = new Cita();
+            Citas citas = new Citas();
 
-            // Si quieres abrir el formulario y cerrar el actual:
-            // citas.Show();
-            // this.Hide();  // Oculta el formulario actual
+            citas.Show();
+            this.Hide();  
         }
 
         private void BtnResultados_Click(object sender, EventArgs e)
         {
-            // Crear una nueva instancia del segundo formulario
             Resultados resultados = new Resultados();
 
-            // Si quieres abrir el formulario y cerrar el actual:
             resultados.Show();
-            this.Hide();  // Oculta el formulario actual
+            this.Hide();
         }
     }
 }

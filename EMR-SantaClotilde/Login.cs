@@ -7,21 +7,12 @@ namespace EMR_SantaClotilde
             InitializeComponent();
         }
 
-        private void lbl_login_Click(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
+            Inicio inicio = new Inicio();
 
+            inicio.Show();
+            this.Hide();
         }
-
-        private void btnIngresar_Click(object sender, EventArgs e)
-        {
-
-
-			// Crear una nueva instancia del segundo formulario
-			Inicio inicio = new Inicio();
-
-			// Si quieres abrir el formulario y cerrar el actual:
-			inicio.Show();
-			this.Hide();  // Oculta el formulario actual
-		}
-	}
+    }
 }
