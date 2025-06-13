@@ -50,12 +50,10 @@ namespace EMR_SantaClotilde.Services
             // BCrypt verifica automáticamente incluyendo el salt
             try
             {
-                // Verifica si el hash almacenado es un hash BCrypt válido
-                return BCrypt.Net(password, storedHash);
+                return BCrypt.Net.BCrypt.Verify(password, storedHash);
             }
             catch (Exception)
             {
-                // Si hay error al verificar (formato incorrecto), la verificación falla
                 return false;
             }
         }
@@ -63,8 +61,7 @@ namespace EMR_SantaClotilde.Services
         // Método para generar nuevo hash BCrypt - úsalo cuando crees o cambies contraseñas
         public string HashPasswordBCrypt(string password)
         {
-            // Genera un hash BCrypt con factor de trabajo 12 (puedes ajustar este valor)
-            return BCrypt.HashPassword(password, workFactor: 12);
+            return BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12);
         }
     }
 }
