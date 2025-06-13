@@ -30,7 +30,7 @@
         {
             label1 = new Label();
             btnModificar = new Button();
-            btnActualizar = new Button();
+            btnBuscar = new Button();
             rtbObservaciones = new RichTextBox();
             lblObservaciones = new Label();
             dtFecha = new DateTimePicker();
@@ -85,7 +85,7 @@
             btnModificar.FlatStyle = FlatStyle.Flat;
             btnModificar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnModificar.ForeColor = Color.White;
-            btnModificar.Location = new Point(259, 419);
+            btnModificar.Location = new Point(255, 419);
             btnModificar.Margin = new Padding(3, 2, 3, 2);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(93, 45);
@@ -94,22 +94,22 @@
             btnModificar.UseVisualStyleBackColor = false;
             btnModificar.Click += btnModificar_Click;
             // 
-            // btnActualizar
+            // btnBuscar
             // 
-            btnActualizar.BackColor = Color.PaleTurquoise;
-            btnActualizar.FlatAppearance.BorderColor = Color.Teal;
-            btnActualizar.FlatAppearance.BorderSize = 0;
-            btnActualizar.FlatStyle = FlatStyle.Flat;
-            btnActualizar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnActualizar.ForeColor = SystemColors.ControlText;
-            btnActualizar.Location = new Point(149, 419);
-            btnActualizar.Margin = new Padding(3, 2, 3, 2);
-            btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(93, 45);
-            btnActualizar.TabIndex = 62;
-            btnActualizar.Text = "Actualizar";
-            btnActualizar.UseVisualStyleBackColor = false;
-            btnActualizar.Click += btnActualizar_Click;
+            btnBuscar.BackColor = Color.PaleTurquoise;
+            btnBuscar.FlatAppearance.BorderColor = Color.Teal;
+            btnBuscar.FlatAppearance.BorderSize = 0;
+            btnBuscar.FlatStyle = FlatStyle.Flat;
+            btnBuscar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBuscar.ForeColor = SystemColors.ControlText;
+            btnBuscar.Location = new Point(151, 419);
+            btnBuscar.Margin = new Padding(3, 2, 3, 2);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(93, 45);
+            btnBuscar.TabIndex = 62;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = false;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // rtbObservaciones
             // 
@@ -403,7 +403,7 @@
             Controls.Add(cmbMotivo);
             Controls.Add(label1);
             Controls.Add(btnModificar);
-            Controls.Add(btnActualizar);
+            Controls.Add(btnBuscar);
             Controls.Add(rtbObservaciones);
             Controls.Add(lblObservaciones);
             Controls.Add(dtFecha);
@@ -439,7 +439,7 @@
 
         private Label label1;
         private Button btnModificar;
-        private Button btnActualizar;
+        private Button btnBuscar;
         private RichTextBox rtbObservaciones;
         private Label lblObservaciones;
         private DateTimePicker dtFecha;

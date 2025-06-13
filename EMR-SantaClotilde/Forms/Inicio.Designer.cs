@@ -187,31 +187,6 @@
             PerformLayout();
         }
 
-        private void CargarAgendaDelDia()
-		{
-			// Ejemplo de datos. Reemplaza por tu fuente real.
-			var citas = new List<(string hora, string paciente, string detalle)>
-			{
-				("10:00 AM", "Juan Pérez", "Revisión de control"),
-				("11:30 AM", "Ana López", "Consulta por dolor abdominal"),
-				("13:00 PM", "Carlos Ruiz", "Examen de sangre")
-			};
-
-			lstAgenda.Items.Clear();
-			foreach (var cita in citas)
-			{
-				var item = new ListViewItem(new[] { cita.hora, cita.paciente, cita.detalle });
-				item.Tag = cita; // Puedes guardar más detalles aquí si lo necesitas
-				lstAgenda.Items.Add(item);
-			}
-		}
-
-		protected override void OnLoad(EventArgs e)
-		{
-			base.OnLoad(e);
-			CargarAgendaDelDia();
-		}
-
 		#endregion
 
 		private Panel panel1;

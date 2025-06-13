@@ -37,7 +37,7 @@ namespace EMR_SantaClotilde
             lblUnidadMedida = new Label();
             lblResultado = new Label();
             rtbResultado = new RichTextBox();
-            btnActualizar = new Button();
+            btnBuscar = new Button();
             btnModificar = new Button();
             lblListaResultadosMedicos = new Label();
             pcbPacientes = new PictureBox();
@@ -274,22 +274,22 @@ namespace EMR_SantaClotilde
             rtbResultado.TabIndex = 35;
             rtbResultado.Text = "";
             // 
-            // btnActualizar
+            // btnBuscar
             // 
-            btnActualizar.BackColor = Color.PaleTurquoise;
-            btnActualizar.FlatAppearance.BorderColor = Color.Teal;
-            btnActualizar.FlatAppearance.BorderSize = 0;
-            btnActualizar.FlatStyle = FlatStyle.Flat;
-            btnActualizar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnActualizar.ForeColor = SystemColors.ControlText;
-            btnActualizar.Location = new Point(145, 464);
-            btnActualizar.Margin = new Padding(3, 2, 3, 2);
-            btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(93, 45);
-            btnActualizar.TabIndex = 36;
-            btnActualizar.Text = "Actualizar";
-            btnActualizar.UseVisualStyleBackColor = false;
-            btnActualizar.Click += btnActualizar_Click;
+            btnBuscar.BackColor = Color.PaleTurquoise;
+            btnBuscar.FlatAppearance.BorderColor = Color.Teal;
+            btnBuscar.FlatAppearance.BorderSize = 0;
+            btnBuscar.FlatStyle = FlatStyle.Flat;
+            btnBuscar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBuscar.ForeColor = SystemColors.ControlText;
+            btnBuscar.Location = new Point(145, 464);
+            btnBuscar.Margin = new Padding(3, 2, 3, 2);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(93, 45);
+            btnBuscar.TabIndex = 36;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = false;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // btnModificar
             // 
@@ -420,7 +420,7 @@ namespace EMR_SantaClotilde
             Controls.Add(lblArchivoAdjunto);
             Controls.Add(lblListaResultadosMedicos);
             Controls.Add(btnModificar);
-            Controls.Add(btnActualizar);
+            Controls.Add(btnBuscar);
             Controls.Add(rtbResultado);
             Controls.Add(lblResultado);
             Controls.Add(cmbUnidadMedida);
@@ -483,7 +483,7 @@ namespace EMR_SantaClotilde
         private Label lblUnidadMedida;
         private Label lblResultado;
         private RichTextBox rtbResultado;
-        private Button btnActualizar;
+        private Button btnBuscar;
         private Button btnModificar;
         private Label lblListaResultadosMedicos;
         private PictureBox pcbPacientes;

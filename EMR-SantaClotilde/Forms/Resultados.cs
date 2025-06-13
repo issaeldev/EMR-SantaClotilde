@@ -1,3 +1,4 @@
+using EMR_SantaClotilde.Services;
 using System;
 using System.Windows.Forms;
 
@@ -5,33 +6,36 @@ namespace EMR_SantaClotilde
 {
     public partial class Resultados : Form
     {
-        public Resultados()
+        private readonly ICitaService _citaService;
+        public Resultados(ICitaService citaService)
         {
+            _citaService = citaService;
             InitializeComponent();
         }
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Agregar resultado...");
         }
-        private void btnActualizar_Click(object sender, EventArgs e)
+
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Actualizar resultado...");
+            MessageBox.Show("Buscando resultado...");
         }
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Modificar resultado...");
+            MessageBox.Show("Modificando resultado...");
         }
 
         private void btnResultados_Click(object sender, EventArgs e)
         {
-            Resultados resultados = new Resultados();
+            Resultados resultados = new Resultados(_citaService);
             resultados.Show();
             this.Hide();
         }
 
         private void lblInicio_Click(object sender, EventArgs e)
         {
-            Inicio inicio = new Inicio();
+            Inicio inicio = new Inicio(_citaService);
             inicio.Show();
             this.Hide();
         }
@@ -47,9 +51,11 @@ namespace EMR_SantaClotilde
 
         private void lblCitas_Click(object sender, EventArgs e)
         {
-            Citas citas = new Citas();
+            Citas citas = new Citas(_citaService);
             citas.Show();
             this.Hide();
         }
+
+
     }
 }
