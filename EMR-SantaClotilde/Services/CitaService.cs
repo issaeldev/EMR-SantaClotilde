@@ -17,6 +17,7 @@ namespace EMR_SantaClotilde.Services
     public interface ICitaService
     {
         List<Cita> ObtenerCitasDelDia(DateTime fecha);
+        List<Cita> ObtenerCitasPorMedico(int id, DateTime fecha);
         Cita ObtenerCitaPorId(int id);
         ResultadoOperacion CrearCita(Cita cita);
         ResultadoOperacion ActualizarCita(Cita cita);
@@ -42,9 +43,9 @@ namespace EMR_SantaClotilde.Services
             return _citaRepository.GetCitaById(id);
         }
 
-        public List<Cita> ObtenerCitasPorMedico(DateTime fecha)
+        public List<Cita> ObtenerCitasPorMedico(int id, DateTime fecha)
         {
-            return _citaRepository.GetCitasByMedico(1, fecha);
+            return _citaRepository.GetCitasByMedico(id, fecha);
         }
 
         public ResultadoOperacion CrearCita(Cita cita)

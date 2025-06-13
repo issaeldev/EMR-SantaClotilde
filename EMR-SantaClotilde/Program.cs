@@ -23,7 +23,7 @@ namespace EMR_SantaClotilde
 
             using (ServiceProvider serviceProvider = services.BuildServiceProvider())
             {
-                var mainForm = serviceProvider.GetRequiredService<Inicio>();
+                var mainForm = serviceProvider.GetRequiredService<Login>();
                 Application.Run(mainForm);
             }
         }
@@ -39,8 +39,11 @@ namespace EMR_SantaClotilde
 
             // Registrar servicios
             services.AddScoped<ICitaService, CitaService>();
+            services.AddScoped<IUsuarioService, UsuarioService>();
+
 
             // Registrar formularios
+            services.AddTransient<Login>();
             services.AddTransient<Inicio>();
             // Agrega aquí más formularios que requieran inyección
         }

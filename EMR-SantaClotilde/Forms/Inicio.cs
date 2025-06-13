@@ -27,31 +27,67 @@ namespace EMR_SantaClotilde
             CargarAgendaDelDia();
         }
 
+        private void MostrarInformacionUsuario()
+        {
+            // Obtener el usuario actual de la sesión
+            var usuario = SesionUsuario.Instance.UsuarioActual;
+            if (usuario != null)
+            {
+                // Asumiendo que tienes un label llamado lblBienvenido
+                lblBienvenido.Text = $"Bienvenido, {usuario.NombreCompleto}";
+
+                // Si es médico, mostrar información adicional o configurar la interfaz específicamente
+                if (usuario.Rol.Equals("médico", StringComparison.OrdinalIgnoreCase))
+                {
+                    this.Text = $"EMR Santa Clotilde - Panel Médico: {usuario.Especialidad}";
+                    // Habilitar funciones específicas para médicos
+                    // btnFuncionMedica.Visible = true;
+                }
+                else
+                {
+                    this.Text = $"EMR Santa Clotilde - {usuario.Rol}";
+                    // Configurar para otros roles
+                }
+            }
+        }
+
         private void CargarAgendaDelDia()
         {
             try
             {
-                var citas = _citaService.ObtenerCitasDelDia(DateTime.Today.AddDays(1));
-                MostrarCitasEnListView(citas);
+                // Cargar solo citas del médico si es un usuario médico
+                var usuario = SesionUsuario.Instance.UsuarioActual;
+                if (usuario != null && usuario.Rol.Equals("médico", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Cargar solo citas del médico actual
+                    var citasMedico = _citaService.ObtenerCitasPorMedico(usuario.Id, DateTime.Today);
+                    MostrarCitasEnLista(citasMedico);
+                }
+                else
+                {
+                    // Para otros roles, cargar todas las citas del día
+                    var todasCitas = _citaService.ObtenerCitasDelDia(DateTime.Today);
+                    MostrarCitasEnLista(todasCitas);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar la agenda: {ex.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al cargar agenda: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void MostrarCitasEnListView(List<Cita> citas)
+        private void MostrarCitasEnLista(List<Cita> citas)
         {
             lstAgenda.Items.Clear();
             foreach (var cita in citas)
             {
                 var hora = cita.FechaHora.ToString("hh:mm tt");
-                var paciente = cita.Paciente?.ToString() ?? "Paciente no disponible";
+                var paciente = cita.Paciente?.Nombres ?? "Paciente no disponible";
                 var detalle = cita.Motivo ?? cita.Tipo;
 
                 var item = new ListViewItem(new[] { hora, paciente, detalle });
-                item.Tag = cita.Id; // Guardamos el ID para referencia futura
+                item.Tag = cita.Id;
                 lstAgenda.Items.Add(item);
             }
         }
