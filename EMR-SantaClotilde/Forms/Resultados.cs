@@ -24,10 +24,47 @@ namespace EMR_SantaClotilde
             CargarResultados();
         }
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+        private async void btnAgregar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Agregar resultado...");
+            if (cmbPaciente.SelectedItem == null || cmbMedico.SelectedItem == null)
+            {
+                MessageBox.Show("Por favor selecciona un paciente y un médico.");
+                return;
+            }
+        
+            try
+            {
+                var nuevoResultado = new Resultado
+                {
+                    PacienteId = (int)cmbPaciente.SelectedValue,
+                    CitaId = cmbCita.SelectedItem != null ? (int?)cmbCita.SelectedValue : null,
+                    MedicoSolicitante = (int)cmbMedico.SelectedValue,
+                    TipoExamen = cmbTipoExamen.Text,
+                    NombreExamen = cmbNombreExamen.Text,
+                    FechaSolicitud = dtFechaSolicitud.Value,
+                    FechaResultado = dtFechaResultado.Value,
+                    Resultado1 = rtbResultado.Text,
+                    UnidadMedida = cmbUnidadMedida.Text,
+                    ArchivoAdjunto = "pendiente" // se puede reemplazar luego con la ruta del archivo
+                };
+        
+                var operacion = await _resultadoService.AgregarAsync(nuevoResultado);
+        
+                if (!operacion.Exito)
+                {
+                    MessageBox.Show("Error al guardar: " + operacion.MensajeError);
+                    return;
+                }
+        
+                MessageBox.Show("Resultado guardado correctamente.");
+                CargarResultados(); // refresca la grilla
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inesperado: " + ex.Message);
+            }
         }
+
 
                 private void CargarResultados()
         {
