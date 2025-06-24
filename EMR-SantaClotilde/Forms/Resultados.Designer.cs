@@ -308,6 +308,23 @@ namespace EMR_SantaClotilde
             btnModificar.UseVisualStyleBackColor = false;
             btnModificar.Click += btnModificar_Click;
             // 
+            // btnEliminar
+            // 
+            btnEliminar = new Button();
+            btnEliminar.BackColor = Color.IndianRed;
+            btnEliminar.FlatAppearance.BorderSize = 0;
+            btnEliminar.FlatStyle = FlatStyle.Flat;
+            btnEliminar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(365, 464);  // justo después de btnModificar
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(93, 45);
+            btnEliminar.TabIndex = 38;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
+            Controls.Add(btnEliminar);
+            // 
             // lblListaResultadosMedicos
             // 
             lblListaResultadosMedicos.AutoSize = true;
@@ -485,6 +502,7 @@ namespace EMR_SantaClotilde
         private RichTextBox rtbResultado;
         private Button btnBuscar;
         private Button btnModificar;
+        private Button btnEliminar;
         private Label lblListaResultadosMedicos;
         private PictureBox pcbPacientes;
         private Label lblInicio;
