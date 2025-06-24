@@ -22,6 +22,7 @@ namespace EMR_SantaClotilde
         private void Resultados_Load(object sender, EventArgs e)
         {
             CargarResultados();
+            dgvResultados.SelectionChanged += dgvResultados_SelectionChanged;
         }
 
         private async void btnAgregar_Click(object sender, EventArgs e)
@@ -65,18 +66,18 @@ namespace EMR_SantaClotilde
             }
         }
 
-
-                private void CargarResultados()
+        private async void CargarResultados()
         {
-            var resultados = _resultadoService.ObtenerTodos();
+            var resultados = await _resultadoService.ObtenerTodosAsync();
             dgvResultados.DataSource = resultados.ToList();
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+
+        private async void btnBuscar_Click(object sender, EventArgs e)
         {
             if (cmbPaciente.SelectedItem is Paciente paciente)
             {
-                var resultados = _resultadoService.BuscarPorPaciente(paciente.Id);
+                var resultados = await _resultadoService.BuscarPorPacienteAsync(paciente.Id);
                 dgvResultados.DataSource = resultados.ToList();
             }
             else
@@ -84,17 +85,78 @@ namespace EMR_SantaClotilde
                 MessageBox.Show("Seleccione un paciente.");
             }
         }
+
+        private async void btnModificar_Click(object sender, EventArgs e)
+        {
+            if (dgvResultados.CurrentRow?.DataBoundItem is not Resultado resultadoExistente)
+            {
+                MessageBox.Show("Seleccione un resultado para modificar.");
+                return;
+            }
         
-        private void btnEliminar_Click(object sender, EventArgs e)
+            try
+            {
+                resultadoExistente.PacienteId = (int)cmbPaciente.SelectedValue;
+                resultadoExistente.CitaId = cmbCita.SelectedItem != null ? (int?)cmbCita.SelectedValue : null;
+                resultadoExistente.MedicoSolicitante = (int)cmbMedico.SelectedValue;
+                resultadoExistente.TipoExamen = cmbTipoExamen.Text;
+                resultadoExistente.NombreExamen = cmbNombreExamen.Text;
+                resultadoExistente.FechaSolicitud = dtFechaSolicitud.Value;
+                resultadoExistente.FechaResultado = dtFechaResultado.Value;
+                resultadoExistente.Resultado1 = rtbResultado.Text;
+                resultadoExistente.UnidadMedida = cmbUnidadMedida.Text;
+                resultadoExistente.ArchivoAdjunto = "pendiente"; // ajustar luego si usas archivos
+        
+                var operacion = await _resultadoService.ModificarAsync(resultadoExistente);
+        
+                if (!operacion.Exito)
+                {
+                    MessageBox.Show("Error al modificar: " + operacion.MensajeError);
+                    return;
+                }
+        
+                MessageBox.Show("Resultado modificado correctamente.");
+                CargarResultados();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inesperado: " + ex.Message);
+            }
+        }
+
+        private void dgvResultados_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvResultados.CurrentRow?.DataBoundItem is Resultado resultado)
+            {
+                cmbPaciente.SelectedValue = resultado.PacienteId;
+                cmbCita.SelectedValue = resultado.CitaId ?? -1;
+                cmbMedico.SelectedValue = resultado.MedicoSolicitante;
+                cmbTipoExamen.Text = resultado.TipoExamen;
+                cmbNombreExamen.Text = resultado.NombreExamen;
+                dtFechaSolicitud.Value = resultado.FechaSolicitud;
+                dtFechaResultado.Value = resultado.FechaResultado ?? DateTime.Today;
+                rtbResultado.Text = resultado.Resultado1;
+                cmbUnidadMedida.Text = resultado.UnidadMedida;
+            }
+        }
+
+        private async void btnEliminar_Click(object sender, EventArgs e)
         {
             if (dgvResultados.CurrentRow?.DataBoundItem is Resultado resultado)
             {
                 var confirm = MessageBox.Show("¿Desea eliminar este resultado?", "Confirmar", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    _resultadoService.Eliminar(resultado.Id);
-                    MessageBox.Show("Resultado eliminado correctamente.");
-                    CargarResultados();
+                    var exito = await _resultadoService.EliminarAsync(resultado.Id);
+                    if (exito)
+                    {
+                        MessageBox.Show("Resultado eliminado correctamente.");
+                        CargarResultados();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error: No se pudo eliminar el resultado.");
+                    }
                 }
             }
             else
@@ -105,7 +167,7 @@ namespace EMR_SantaClotilde
 
         private void btnResultados_Click(object sender, EventArgs e)
         {
-            Resultados resultados = new Resultados(_citaService);
+            var resultados = new Resultados(_citaService, _resultadoService);
             resultados.Show();
             this.Hide();
         }
@@ -132,7 +194,6 @@ namespace EMR_SantaClotilde
             citas.Show();
             this.Hide();
         }
-
 
     }
 }
