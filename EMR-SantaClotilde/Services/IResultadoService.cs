@@ -1,9 +1,16 @@
+using EMR_SantaClotilde.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EMR_SantaClotilde.Models;
 
-namespace EMR_SantaClotilde.Services.Interfaces
+namespace EMR_SantaClotilde.Services
 {
+    public class ResultadoOperacion
+    {
+        public bool Exito { get; set; }
+        public Resultado? Datos { get; set; }
+        public string? MensajeError { get; set; }
+    }
+
     public interface IResultadoService
     {
         Task<ResultadoOperacion> AgregarAsync(Resultado resultado);
