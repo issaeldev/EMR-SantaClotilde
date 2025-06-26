@@ -152,26 +152,6 @@ namespace EMR_SantaClotilde
             }
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            if (dgvCitas.CurrentRow?.DataBoundItem is Cita cita)
-            {
-                var confirm = MessageBox.Show("¿Desea eliminar esta cita?", "Confirmar", MessageBoxButtons.YesNo);
-                if (confirm == DialogResult.Yes)
-                {
-                    var resultado = _citaService.Eliminar(cita.Id);
-                    if (!resultado.Exito)
-                    {
-                        MessageBox.Show("Error al eliminar cita: " + resultado.Mensaje);
-                        return;
-                    }
-
-                    MessageBox.Show("Cita eliminada correctamente.");
-                    CargarCitasDelDia();
-                }
-            }
-        }
-
         private void lblResultados_Click(object sender, EventArgs e)
         {
             var resultadosForm = new Resultados(_citaService, new ResultadoService()); // cambia según tu DI real
@@ -184,6 +164,26 @@ namespace EMR_SantaClotilde
             var inicioForm = new Inicio(_citaService);
             inicioForm.Show();
             this.Hide();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (dgvCitas.CurrentRow?.DataBoundItem is Cita cita)
+            {
+                var confirm = MessageBox.Show("¿Desea eliminar esta cita?", "Confirmar", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                {
+                    var resultado = _citaService.CancelarCita(cita.Id);
+                    if (!resultado.Exito)
+                    {
+                        MessageBox.Show("Error al eliminar cita: " + resultado.Mensaje);
+                        return;
+                    }
+
+                    MessageBox.Show("Cita eliminada correctamente.");
+                    CargarCitasDelDia();
+                }
+            }
         }
     }
 }

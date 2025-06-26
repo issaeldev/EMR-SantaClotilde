@@ -58,6 +58,7 @@
             richMotivo = new RichTextBox();
             label2 = new Label();
             pictureBox3 = new PictureBox();
+            btnEliminar = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pcbInicio).BeginInit();
@@ -71,7 +72,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Ebrima", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Teal;
-            label1.Location = new Point(691, 159);
+            label1.Location = new Point(718, 159);
             label1.Name = "label1";
             label1.Size = new Size(194, 23);
             label1.TabIndex = 64;
@@ -111,7 +112,7 @@
             // 
             // rtbObservaciones
             // 
-            rtbObservaciones.Location = new Point(239, 423);
+            rtbObservaciones.Location = new Point(291, 423);
             rtbObservaciones.Margin = new Padding(3, 4, 3, 4);
             rtbObservaciones.Name = "rtbObservaciones";
             rtbObservaciones.Size = new Size(163, 108);
@@ -123,7 +124,7 @@
             lblObservaciones.AutoSize = true;
             lblObservaciones.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
             lblObservaciones.ForeColor = Color.CadetBlue;
-            lblObservaciones.Location = new Point(239, 393);
+            lblObservaciones.Location = new Point(291, 393);
             lblObservaciones.Name = "lblObservaciones";
             lblObservaciones.Size = new Size(124, 23);
             lblObservaciones.TabIndex = 60;
@@ -142,7 +143,7 @@
             lblMotivo.AutoSize = true;
             lblMotivo.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
             lblMotivo.ForeColor = Color.CadetBlue;
-            lblMotivo.Location = new Point(239, 159);
+            lblMotivo.Location = new Point(291, 159);
             lblMotivo.Name = "lblMotivo";
             lblMotivo.Size = new Size(67, 23);
             lblMotivo.TabIndex = 55;
@@ -315,10 +316,10 @@
             // dgvCitas
             // 
             dgvCitas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvCitas.Location = new Point(490, 188);
+            dgvCitas.Location = new Point(587, 188);
             dgvCitas.Name = "dgvCitas";
             dgvCitas.RowHeadersWidth = 51;
-            dgvCitas.Size = new Size(576, 431);
+            dgvCitas.Size = new Size(479, 343);
             dgvCitas.TabIndex = 43;
             // 
             // btnAgregar
@@ -362,7 +363,7 @@
             // cmbMotivo
             // 
             cmbMotivo.FormattingEnabled = true;
-            cmbMotivo.Location = new Point(239, 188);
+            cmbMotivo.Location = new Point(291, 188);
             cmbMotivo.Margin = new Padding(3, 4, 3, 4);
             cmbMotivo.Name = "cmbMotivo";
             cmbMotivo.Size = new Size(163, 28);
@@ -370,7 +371,7 @@
             // 
             // richMotivo
             // 
-            richMotivo.Location = new Point(239, 265);
+            richMotivo.Location = new Point(291, 265);
             richMotivo.Margin = new Padding(3, 4, 3, 4);
             richMotivo.Name = "richMotivo";
             richMotivo.Size = new Size(163, 108);
@@ -382,7 +383,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
             label2.ForeColor = Color.CadetBlue;
-            label2.Location = new Point(239, 236);
+            label2.Location = new Point(291, 236);
             label2.Name = "label2";
             label2.Size = new Size(147, 23);
             label2.TabIndex = 66;
@@ -399,11 +400,28 @@
             pictureBox3.TabIndex = 68;
             pictureBox3.TabStop = false;
             // 
+            // btnEliminar
+            // 
+            btnEliminar.BackColor = Color.IndianRed;
+            btnEliminar.FlatAppearance.BorderColor = Color.Teal;
+            btnEliminar.FlatAppearance.BorderSize = 0;
+            btnEliminar.FlatStyle = FlatStyle.Flat;
+            btnEliminar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnEliminar.ForeColor = Color.White;
+            btnEliminar.Location = new Point(418, 559);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(106, 60);
+            btnEliminar.TabIndex = 69;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = false;
+            btnEliminar.Click += btnEliminar_Click;
+            // 
             // Citas
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1126, 711);
+            Controls.Add(btnEliminar);
             Controls.Add(pictureBox3);
             Controls.Add(richMotivo);
             Controls.Add(label2);
@@ -476,5 +494,6 @@
         private RichTextBox richMotivo;
         private Label label2;
         private PictureBox pictureBox3;
+        private Button btnEliminar;
     }
 }

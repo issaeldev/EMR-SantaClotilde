@@ -151,5 +151,10 @@ namespace EMR_SantaClotilde.Forms
             inicio.Show();
             this.Hide();
         }
+
+        private void dgvPacientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

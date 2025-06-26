@@ -101,7 +101,7 @@
             lblListaResultadosMedicos.AutoSize = true;
             lblListaResultadosMedicos.Font = new Font("Ebrima", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblListaResultadosMedicos.ForeColor = Color.Teal;
-            lblListaResultadosMedicos.Location = new Point(686, 129);
+            lblListaResultadosMedicos.Location = new Point(741, 139);
             lblListaResultadosMedicos.Name = "lblListaResultadosMedicos";
             lblListaResultadosMedicos.Size = new Size(165, 23);
             lblListaResultadosMedicos.TabIndex = 65;
@@ -142,7 +142,7 @@
             lblAlergias.AutoSize = true;
             lblAlergias.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
             lblAlergias.ForeColor = Color.CadetBlue;
-            lblAlergias.Location = new Point(233, 284);
+            lblAlergias.Location = new Point(284, 284);
             lblAlergias.Name = "lblAlergias";
             lblAlergias.Size = new Size(75, 23);
             lblAlergias.TabIndex = 61;
@@ -153,7 +153,7 @@
             lblAntecedentes.AutoSize = true;
             lblAntecedentes.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
             lblAntecedentes.ForeColor = Color.CadetBlue;
-            lblAntecedentes.Location = new Point(233, 362);
+            lblAntecedentes.Location = new Point(284, 362);
             lblAntecedentes.Name = "lblAntecedentes";
             lblAntecedentes.Size = new Size(118, 23);
             lblAntecedentes.TabIndex = 59;
@@ -161,7 +161,7 @@
             // 
             // dtFechaNacimiento
             // 
-            dtFechaNacimiento.Location = new Point(233, 158);
+            dtFechaNacimiento.Location = new Point(284, 158);
             dtFechaNacimiento.Margin = new Padding(3, 4, 3, 4);
             dtFechaNacimiento.Name = "dtFechaNacimiento";
             dtFechaNacimiento.Size = new Size(163, 27);
@@ -172,7 +172,7 @@
             lblTelefono.AutoSize = true;
             lblTelefono.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
             lblTelefono.ForeColor = Color.CadetBlue;
-            lblTelefono.Location = new Point(233, 210);
+            lblTelefono.Location = new Point(284, 210);
             lblTelefono.Name = "lblTelefono";
             lblTelefono.Size = new Size(80, 23);
             lblTelefono.TabIndex = 56;
@@ -183,7 +183,7 @@
             lblFechaSolicitud.AutoSize = true;
             lblFechaSolicitud.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
             lblFechaSolicitud.ForeColor = Color.CadetBlue;
-            lblFechaSolicitud.Location = new Point(233, 129);
+            lblFechaSolicitud.Location = new Point(284, 129);
             lblFechaSolicitud.Name = "lblFechaSolicitud";
             lblFechaSolicitud.Size = new Size(174, 23);
             lblFechaSolicitud.TabIndex = 55;
@@ -255,7 +255,7 @@
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1086, 69);
+            panel1.Size = new Size(1129, 69);
             panel1.TabIndex = 45;
             // 
             // pictureBox3
@@ -328,11 +328,12 @@
             // dgvPacientes
             // 
             dgvPacientes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvPacientes.Location = new Point(528, 158);
+            dgvPacientes.Location = new Point(542, 175);
             dgvPacientes.Name = "dgvPacientes";
             dgvPacientes.RowHeadersWidth = 51;
-            dgvPacientes.Size = new Size(532, 452);
+            dgvPacientes.Size = new Size(532, 394);
             dgvPacientes.TabIndex = 44;
+            dgvPacientes.CellContentClick += dgvPacientes_CellContentClick;
             // 
             // btnAgregar
             // 
@@ -412,21 +413,21 @@
             // 
             // txtTelefono
             // 
-            txtTelefono.Location = new Point(233, 243);
+            txtTelefono.Location = new Point(284, 243);
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(163, 27);
             txtTelefono.TabIndex = 72;
             // 
             // txtAlergias
             // 
-            txtAlergias.Location = new Point(233, 322);
+            txtAlergias.Location = new Point(284, 322);
             txtAlergias.Name = "txtAlergias";
             txtAlergias.Size = new Size(163, 27);
             txtAlergias.TabIndex = 73;
             // 
             // txtAntecedentes
             // 
-            txtAntecedentes.Location = new Point(233, 393);
+            txtAntecedentes.Location = new Point(284, 393);
             txtAntecedentes.Name = "txtAntecedentes";
             txtAntecedentes.Size = new Size(163, 27);
             txtAntecedentes.TabIndex = 74;
@@ -435,7 +436,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1086, 682);
+            ClientSize = new Size(1129, 682);
             Controls.Add(txtAntecedentes);
             Controls.Add(txtAlergias);
             Controls.Add(txtTelefono);
