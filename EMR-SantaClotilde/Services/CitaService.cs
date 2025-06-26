@@ -1,4 +1,5 @@
-﻿using EMR_SantaClotilde.Models;
+﻿using EMR_SantaClotilde.Common;
+using EMR_SantaClotilde.Models;
 using EMR_SantaClotilde.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,6 @@ using System.Threading.Tasks;
 
 namespace EMR_SantaClotilde.Services
 {
-    public class ResultadoOperacion
-    {
-        public bool Exito { get; set; }
-        public string Mensaje { get; set; }
-    }
 
     public interface ICitaService
     {
