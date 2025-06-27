@@ -1,67 +1,148 @@
-﻿using BCrypt.Net;
+using EMR_SantaClotilde.Common;
 using EMR_SantaClotilde.Models;
-using Microsoft.EntityFrameworkCore;
+using EMR_SantaClotilde.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EMR_SantaClotilde.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        private readonly EmrSantaClotildeContext _context;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        public UsuarioService(EmrSantaClotildeContext context)
+        public UsuarioService(IUsuarioRepository usuarioRepository)
         {
-            _context = context;
+            _usuarioRepository = usuarioRepository;
         }
 
-        public async Task<LoginResult> AutenticarUsuario(string username, string password)
+        public async Task<IEnumerable<Usuarios>> ObtenerTodosAsync()
         {
-            // Buscar el usuario por nombre de usuario
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(u => u.Username == username && u.Activo);
-
-            if (usuario == null)
-            {
-                return new LoginResult { Success = false, ErrorMessage = "Usuario no encontrado o inactivo" };
-            }
-
-            // Verificar la contraseña usando BCrypt
-            if (VerificarPasswordBCrypt(password, usuario.PasswordHash))
-            {
-                return new LoginResult { Success = true, User = usuario };
-            }
-
-            return new LoginResult { Success = false, ErrorMessage = "Credenciales incorrectas" };
+            return await Task.Run(() => _usuarioRepository.GetAll());
         }
 
-        public bool EsMedico(Usuario usuario)
+        public async Task<Usuarios?> ObtenerPorIdAsync(int id)
         {
-            return usuario.Rol.Equals("Medico", StringComparison.OrdinalIgnoreCase) &&
-                   !string.IsNullOrEmpty(usuario.Especialidad);
+            return await Task.Run(() => _usuarioRepository.GetById(id));
         }
 
-        private bool VerificarPasswordBCrypt(string password, string storedHash)
+        public async Task<Usuarios?> ObtenerPorUsernameAsync(string username)
         {
-            // BCrypt verifica automáticamente incluyendo el salt
+            return await Task.Run(() => _usuarioRepository.GetByUsername(username));
+        }
+
+        public async Task<IEnumerable<Usuarios>> BuscarPorNombreAsync(string nombre)
+        {
+            return await Task.Run(() => _usuarioRepository.SearchByNombre(nombre));
+        }
+
+        public async Task<ResultadoOperacion> CrearAsync(Usuarios usuario)
+        {
+            return await Task.Run(() => Crear(usuario));
+        }
+
+        public async Task<ResultadoOperacion> ActualizarAsync(Usuarios usuario)
+        {
+            return await Task.Run(() => Actualizar(usuario));
+        }
+
+        public async Task<ResultadoOperacion> EliminarAsync(int id)
+        {
+            return await Task.Run(() => Eliminar(id));
+        }
+
+        // Lógica interna
+        private ResultadoOperacion Crear(Usuarios usuario)
+        {
             try
             {
-                return BCrypt.Net.BCrypt.Verify(password, storedHash);
+                var errores = new List<string>();
+
+                if (usuario == null)
+                    return ResultadoOperacion.Fallido("El usuario no puede ser nulo");
+
+                if (string.IsNullOrWhiteSpace(usuario.Username))
+                    errores.Add("El nombre de usuario es requerido");
+
+                if (string.IsNullOrWhiteSpace(usuario.PasswordHash))
+                    errores.Add("La contraseña es requerida");
+
+                if (string.IsNullOrWhiteSpace(usuario.NombreCompleto))
+                    errores.Add("El nombre completo es requerido");
+
+                if (string.IsNullOrWhiteSpace(usuario.Rol))
+                    errores.Add("El rol es requerido");
+
+                if (_usuarioRepository.GetByUsername(usuario.Username) != null)
+                    errores.Add("Ya existe un usuario con ese nombre de usuario");
+
+                if (errores.Any())
+                    return ResultadoOperacion.Fallido("Error de validación", errores);
+
+                usuario.Activo = true;
+                _usuarioRepository.Add(usuario);
+
+                return ResultadoOperacion.Exitoso("Usuario creado correctamente");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                return ResultadoOperacion.Fallido("Error al crear el usuario", ex.Message);
             }
         }
 
-        // Método para generar nuevo hash BCrypt - úsalo cuando crees o cambies contraseñas
-        public string HashPasswordBCrypt(string password)
+        private ResultadoOperacion Actualizar(Usuarios usuario)
         {
-            return BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12);
+            try
+            {
+                var errores = new List<string>();
+
+                var usuarioExistente = _usuarioRepository.GetById(usuario.Id);
+                if (usuarioExistente == null)
+                    return ResultadoOperacion.Fallido("El usuario no existe");
+
+                if (string.IsNullOrWhiteSpace(usuario.NombreCompleto))
+                    errores.Add("El nombre completo es requerido");
+
+                if (string.IsNullOrWhiteSpace(usuario.Rol))
+                    errores.Add("El rol es requerido");
+
+                if (errores.Any())
+                    return ResultadoOperacion.Fallido("Error de validación", errores);
+
+                _usuarioRepository.Update(usuario);
+                return ResultadoOperacion.Exitoso("Usuario actualizado correctamente");
+            }
+            catch (Exception ex)
+            {
+                return ResultadoOperacion.Fallido("Error al actualizar el usuario", ex.Message);
+            }
+        }
+
+        private ResultadoOperacion Eliminar(int id)
+        {
+            try
+            {
+                var usuario = _usuarioRepository.GetById(id);
+                if (usuario == null)
+                    return ResultadoOperacion.Fallido("El usuario no existe");
+
+                if (!usuario.Activo)
+                    return ResultadoOperacion.Fallido("El usuario ya se encuentra inactivo");
+
+                _usuarioRepository.Delete(id);
+
+                return ResultadoOperacion.Exitoso($"Usuario eliminado correctamente (ID: {id})");
+            }
+            catch (Exception ex)
+            {
+                return ResultadoOperacion.Fallido("Error al eliminar el usuario", ex.Message);
+            }
+        }
+
+        Task IUsuarioService.CrearAsync(Usuarios usuario)
+        {
+            throw new NotImplementedException();
         }
     }
 }
