@@ -1,14 +1,10 @@
 ﻿using EMR_SantaClotilde.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EMR_SantaClotilde.Repositories
 {
-    internal class PacienteRepository : IPacienteRepository
+    public class PacienteRepository : IPacienteRepository
     {
         private readonly EmrSantaClotildeContext _context;
 
@@ -17,61 +13,57 @@ namespace EMR_SantaClotilde.Repositories
             _context = context;
         }
 
-        public Paciente GetById(int id)
+        /// <summary>
+        /// Retorna un IQueryable con solo los pacientes activos.
+        /// Puedes componer más filtros antes de ejecutar ToList(), FirstOrDefault(), etc.
+        /// </summary>
+        public IQueryable<Paciente> QueryActivos()
         {
-            return _context.Set<Paciente>()
-                .Include(p => p.Cita)
-                .Include(p => p.Resultados)
-                .FirstOrDefault(p => p.Id == id);
+            return _context.Pacientes.Where(p => p.Activo);
         }
 
         public List<Paciente> GetAll()
         {
-            return _context.Set<Paciente>()
-                .Include(p => p.Cita)
-                .Include(p => p.Resultados)
-                .OrderBy(p => p.Apellidos)
-                .ThenBy(p => p.Nombres)
-                .ToList();
+            return QueryActivos().ToList();
         }
 
-        public Paciente GetByDni(string dni)
+        public Paciente? GetById(int id)
         {
-            return _context.Set<Paciente>()
-                .Include(p => p.Cita)
-                .Include(p => p.Resultados)
-                .FirstOrDefault(p => p.Dni == dni);
+            return QueryActivos().FirstOrDefault(p => p.Id == id);
+        }
+
+        public Paciente? GetByDni(string dni)
+        {
+            return QueryActivos().FirstOrDefault(p => p.Dni == dni);
         }
 
         public List<Paciente> SearchByNombre(string nombre)
         {
-            return _context.Set<Paciente>()
-                .Where(p =>
-                    p.Nombres.Contains(nombre) ||
-                    p.Apellidos.Contains(nombre))
-                .OrderBy(p => p.Apellidos)
-                .ThenBy(p => p.Nombres)
+            return QueryActivos()
+                .Where(p => p.Nombres.Contains(nombre))
                 .ToList();
         }
 
         public void Add(Paciente paciente)
         {
-            _context.Set<Paciente>().Add(paciente);
+            paciente.Activo = true; // Por defecto activo al crear
+            _context.Pacientes.Add(paciente);
             _context.SaveChanges();
         }
 
         public void Update(Paciente paciente)
         {
-            _context.Set<Paciente>().Update(paciente);
+            _context.Pacientes.Update(paciente);
             _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var paciente = _context.Set<Paciente>().Find(id);
+            var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == id);
             if (paciente != null)
             {
-                _context.Set<Paciente>().Remove(paciente);
+                paciente.Activo = false;            // ← Borrado lógico
+                _context.Pacientes.Update(paciente);
                 _context.SaveChanges();
             }
         }
