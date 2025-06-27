@@ -35,13 +35,13 @@ namespace EMR_SantaClotilde
                 // Autenticación
                 var resultado = await _usuarioService.AutenticarUsuario(username, password);
 
-                if (resultado.Success)
+                if (resultado.Exito)
                 {
                     // Guardar el usuario en la sesión
-                    SesionUsuario.Instance.IniciarSesion(resultado.User);
+                    SesionUsuario.Instance.IniciarSesion(resultado.Usuario);
 
                     // Verificar si es médico
-                    bool esMedico = _usuarioService.EsMedico(resultado.User);
+                    bool esMedico = _usuarioService.EsMedico(resultado.Usuario);
 
                     if (esMedico)
                     {
@@ -49,19 +49,19 @@ namespace EMR_SantaClotilde
                         Inicio inicioMedico = new Inicio(_citaService);
                         inicioMedico.Show();
 
-                        MessageBox.Show($"Bienvenido Dr. {resultado.User.NombreCompleto}\n" +
-                                       $"Especialidad: {resultado.User.Especialidad}",
+                        MessageBox.Show($"Bienvenido Dr. {resultado.Usuario.NombreCompleto}\n" +
+                                       $"Especialidad: {resultado.Usuario.Especialidad}",
                                        "Acceso médico", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
                         // Abrir formulario para otros roles (admin, recepcionista, etc.)
-                        MessageBox.Show($"Bienvenido {resultado.User.NombreCompleto}\n" +
-                                       $"Rol: {resultado.User.Rol}",
+                        MessageBox.Show($"Bienvenido {resultado.Usuario.NombreCompleto}\n" +
+                                       $"Rol: {resultado.Usuario.Rol}",
                                        "Acceso sistema", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         // Determina el formulario a mostrar según el rol
-                        switch (resultado.User.Rol.ToLower())
+                        switch (resultado.Usuario.Rol.ToLower())
                         {
                             case "administrador":
                                 // FormularioAdmin admin = new FormularioAdmin(_servicios);
@@ -84,7 +84,7 @@ namespace EMR_SantaClotilde
                 }
                 else
                 {
-                    MessageBox.Show(resultado.ErrorMessage,
+                    MessageBox.Show(resultado.Mensaje,
                         "Error de autenticación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }

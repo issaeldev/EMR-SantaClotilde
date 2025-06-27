@@ -1,6 +1,7 @@
 using EMR_SantaClotilde.Common;
 using EMR_SantaClotilde.Models;
 using EMR_SantaClotilde.Repositories;
+using BCrypt.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,72 +18,57 @@ namespace EMR_SantaClotilde.Services
             _usuarioRepository = usuarioRepository;
         }
 
-        public async Task<IEnumerable<Usuarios>> ObtenerTodosAsync()
+        public async Task<IEnumerable<Usuario>> ObtenerTodosAsync()
         {
-            return await Task.Run(() => _usuarioRepository.GetAll());
+            return await _usuarioRepository.GetAllAsync();
         }
 
-        public async Task<Usuarios?> ObtenerPorIdAsync(int id)
+        public async Task<Usuario?> ObtenerPorIdAsync(int id)
         {
-            return await Task.Run(() => _usuarioRepository.GetById(id));
+            return await _usuarioRepository.GetByIdAsync(id);
         }
 
-        public async Task<Usuarios?> ObtenerPorUsernameAsync(string username)
+        public async Task<Usuario?> ObtenerPorUsernameAsync(string username)
         {
-            return await Task.Run(() => _usuarioRepository.GetByUsername(username));
+            return await _usuarioRepository.GetByUsernameAsync(username);
         }
 
-        public async Task<IEnumerable<Usuarios>> BuscarPorNombreAsync(string nombre)
+        public async Task<IEnumerable<Usuario>> BuscarPorNombreAsync(string nombre)
         {
-            return await Task.Run(() => _usuarioRepository.SearchByNombre(nombre));
+            return await _usuarioRepository.SearchByNombreAsync(nombre);
         }
 
-        public async Task<ResultadoOperacion> CrearAsync(Usuarios usuario)
+        public async Task<ResultadoOperacion> CrearAsync(Usuario usuario)
         {
-            return await Task.Run(() => Crear(usuario));
-        }
+            var errores = new List<string>();
 
-        public async Task<ResultadoOperacion> ActualizarAsync(Usuarios usuario)
-        {
-            return await Task.Run(() => Actualizar(usuario));
-        }
+            if (usuario == null)
+                return ResultadoOperacion.Fallido("El usuario no puede ser nulo");
 
-        public async Task<ResultadoOperacion> EliminarAsync(int id)
-        {
-            return await Task.Run(() => Eliminar(id));
-        }
+            if (string.IsNullOrWhiteSpace(usuario.Username))
+                errores.Add("El nombre de usuario es requerido");
 
-        // Lógica interna
-        private ResultadoOperacion Crear(Usuarios usuario)
-        {
+            if (string.IsNullOrWhiteSpace(usuario.PasswordHash))
+                errores.Add("La contraseña es requerida");
+
+            if (string.IsNullOrWhiteSpace(usuario.NombreCompleto))
+                errores.Add("El nombre completo es requerido");
+
+            if (string.IsNullOrWhiteSpace(usuario.Rol))
+                errores.Add("El rol es requerido");
+
+            if (await _usuarioRepository.GetByUsernameAsync(usuario.Username) != null)
+                errores.Add("Ya existe un usuario con ese nombre de usuario");
+
+            if (errores.Any())
+                return ResultadoOperacion.Fallido("Error de validación", errores);
+
+            usuario.PasswordHash = BCrypt.Net.BCrypt.HashPassword(usuario.PasswordHash);
+            usuario.Activo = true;
+
             try
             {
-                var errores = new List<string>();
-
-                if (usuario == null)
-                    return ResultadoOperacion.Fallido("El usuario no puede ser nulo");
-
-                if (string.IsNullOrWhiteSpace(usuario.Username))
-                    errores.Add("El nombre de usuario es requerido");
-
-                if (string.IsNullOrWhiteSpace(usuario.PasswordHash))
-                    errores.Add("La contraseña es requerida");
-
-                if (string.IsNullOrWhiteSpace(usuario.NombreCompleto))
-                    errores.Add("El nombre completo es requerido");
-
-                if (string.IsNullOrWhiteSpace(usuario.Rol))
-                    errores.Add("El rol es requerido");
-
-                if (_usuarioRepository.GetByUsername(usuario.Username) != null)
-                    errores.Add("Ya existe un usuario con ese nombre de usuario");
-
-                if (errores.Any())
-                    return ResultadoOperacion.Fallido("Error de validación", errores);
-
-                usuario.Activo = true;
-                _usuarioRepository.Add(usuario);
-
+                await _usuarioRepository.AddAsync(usuario);
                 return ResultadoOperacion.Exitoso("Usuario creado correctamente");
             }
             catch (Exception ex)
@@ -91,26 +77,37 @@ namespace EMR_SantaClotilde.Services
             }
         }
 
-        private ResultadoOperacion Actualizar(Usuarios usuario)
+        public async Task<ResultadoOperacion> ActualizarAsync(Usuario usuario)
         {
+            var errores = new List<string>();
+
+            var usuarioExistente = await _usuarioRepository.GetByIdAsync(usuario.Id);
+            if (usuarioExistente == null)
+                return ResultadoOperacion.Fallido("El usuario no existe");
+
+            if (string.IsNullOrWhiteSpace(usuario.NombreCompleto))
+                errores.Add("El nombre completo es requerido");
+
+            if (string.IsNullOrWhiteSpace(usuario.Rol))
+                errores.Add("El rol es requerido");
+
+            if (errores.Any())
+                return ResultadoOperacion.Fallido("Error de validación", errores);
+
+            // Si quieres actualizar la contraseña solo si se envía una nueva
+            if (!string.IsNullOrWhiteSpace(usuario.PasswordHash) &&
+                !BCrypt.Net.BCrypt.Verify(usuario.PasswordHash, usuarioExistente.PasswordHash))
+            {
+                usuarioExistente.PasswordHash = BCrypt.Net.BCrypt.HashPassword(usuario.PasswordHash);
+            }
+
+            usuarioExistente.NombreCompleto = usuario.NombreCompleto;
+            usuarioExistente.Rol = usuario.Rol;
+            usuarioExistente.Especialidad = usuario.Especialidad;
+
             try
             {
-                var errores = new List<string>();
-
-                var usuarioExistente = _usuarioRepository.GetById(usuario.Id);
-                if (usuarioExistente == null)
-                    return ResultadoOperacion.Fallido("El usuario no existe");
-
-                if (string.IsNullOrWhiteSpace(usuario.NombreCompleto))
-                    errores.Add("El nombre completo es requerido");
-
-                if (string.IsNullOrWhiteSpace(usuario.Rol))
-                    errores.Add("El rol es requerido");
-
-                if (errores.Any())
-                    return ResultadoOperacion.Fallido("Error de validación", errores);
-
-                _usuarioRepository.Update(usuario);
+                await _usuarioRepository.UpdateAsync(usuarioExistente);
                 return ResultadoOperacion.Exitoso("Usuario actualizado correctamente");
             }
             catch (Exception ex)
@@ -119,19 +116,20 @@ namespace EMR_SantaClotilde.Services
             }
         }
 
-        private ResultadoOperacion Eliminar(int id)
+        public async Task<ResultadoOperacion> EliminarAsync(int id)
         {
+            var usuario = await _usuarioRepository.GetByIdAsync(id);
+            if (usuario == null)
+                return ResultadoOperacion.Fallido("El usuario no existe");
+
+            if (!usuario.Activo)
+                return ResultadoOperacion.Fallido("El usuario ya se encuentra inactivo");
+
+            usuario.Activo = false;
+
             try
             {
-                var usuario = _usuarioRepository.GetById(id);
-                if (usuario == null)
-                    return ResultadoOperacion.Fallido("El usuario no existe");
-
-                if (!usuario.Activo)
-                    return ResultadoOperacion.Fallido("El usuario ya se encuentra inactivo");
-
-                _usuarioRepository.Delete(id);
-
+                await _usuarioRepository.UpdateAsync(usuario);
                 return ResultadoOperacion.Exitoso($"Usuario eliminado correctamente (ID: {id})");
             }
             catch (Exception ex)
@@ -140,9 +138,29 @@ namespace EMR_SantaClotilde.Services
             }
         }
 
-        Task IUsuarioService.CrearAsync(Usuarios usuario)
+        private bool VerificarPassword(string plainPassword, string passwordHash)
         {
-            throw new NotImplementedException();
+            return BCrypt.Net.BCrypt.Verify(plainPassword, passwordHash);
+        }
+
+        bool EsMedico(Usuario usuario)
+        {
+            if (usuario == null) return false;
+            return string.Equals(usuario.Rol, "Medico", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(usuario.Rol, "Médico", StringComparison.OrdinalIgnoreCase);
+        }
+
+        async Task<LoginResult> AutenticarUsuario(string username, string password)
+        {
+            var usuario = await _usuarioRepository.GetByUsernameAsync(username);
+
+            if (usuario == null || !usuario.Activo)
+                return LoginResult.Fallido("Usuario no encontrado o inactivo");
+
+            if (!VerificarPassword(password, usuario.PasswordHash))
+                return LoginResult.Fallido("Contraseña incorrecta");
+
+            return LoginResult.Exitoso(usuario);
         }
     }
 }

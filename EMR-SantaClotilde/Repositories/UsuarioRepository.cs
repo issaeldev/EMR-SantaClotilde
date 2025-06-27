@@ -1,6 +1,8 @@
 ﻿using EMR_SantaClotilde.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EMR_SantaClotilde.Repositories
 {
@@ -18,55 +20,59 @@ namespace EMR_SantaClotilde.Repositories
             return _context.Usuarios.Where(u => u.Activo);
         }
 
-        public List<Usuario> GetAll()
-        {
-            return QueryActivos().ToList();
-        }
-
         public Usuario? GetById(int id)
         {
             return QueryActivos().FirstOrDefault(u => u.Id == id);
         }
 
-        public Usuario? GetByUsername(string username)
+        public List<Usuario> GetAll()
         {
-            return QueryActivos().FirstOrDefault(u => u.Username == username);
+            return QueryActivos().ToList();
         }
 
-        public List<Usuario> SearchByNombre(string nombre)
+        public async Task<Usuario?> GetByIdAsync(int id)
         {
-            return QueryActivos()
+            return await QueryActivos().FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<List<Usuario>> GetAllAsync()
+        {
+            return await QueryActivos().ToListAsync();
+        }
+
+        public async Task<Usuario?> GetByUsernameAsync(string username)
+        {
+            return await QueryActivos().FirstOrDefaultAsync(u => u.Username == username);
+        }
+
+        public async Task<List<Usuario>> SearchByNombreAsync(string nombre)
+        {
+            return await QueryActivos()
                 .Where(u => u.NombreCompleto.Contains(nombre))
-                .ToList();
+                .ToListAsync();
         }
 
-        public void Add(Usuario usuario)
+        public async Task AddAsync(Usuario usuario)
         {
-            usuario.Activo = true;
-            _context.Usuarios.Add(usuario);
-            _context.SaveChanges();
+            await _context.Usuarios.AddAsync(usuario);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Usuario usuario)
+        public async Task UpdateAsync(Usuario usuario)
         {
             _context.Usuarios.Update(usuario);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.Id == id);
-            if (usuario != null)
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario != null && usuario.Activo)
             {
-                usuario.Activo = false;
+                usuario.Activo = false; // Eliminado lógico
                 _context.Usuarios.Update(usuario);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
-        }
-
-        List<Usuario> IUsuarioRepository.SearchByNombre(string nombre)
-        {
-            throw new NotImplementedException();
         }
     }
 }

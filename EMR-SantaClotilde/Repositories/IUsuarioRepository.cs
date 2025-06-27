@@ -1,16 +1,17 @@
 ﻿using EMR_SantaClotilde.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EMR_SantaClotilde.Repositories
 {
     public interface IUsuarioRepository
     {
-        Usuario? GetById(int id);
-        List<Usuario> GetAll();
-        Usuario? GetByUsername(string username);
-        List<Usuario> SearchByNombre(string nombre);
-        void Add(Usuario usuario);
-        void Update(Usuario usuario);
-        void Delete(int id);
+        Task<Usuario?> GetByIdAsync(int id);
+        Task<List<Usuario>> GetAllAsync();
+        Task<Usuario?> GetByUsernameAsync(string username);
+        Task<List<Usuario>> SearchByNombreAsync(string nombre);
+        Task AddAsync(Usuario usuario);
+        Task UpdateAsync(Usuario usuario);
+        Task DeleteAsync(int id);
     }
 }
