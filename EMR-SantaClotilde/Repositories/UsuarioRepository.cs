@@ -17,41 +17,41 @@ namespace EMR_SantaClotilde.Repositories
         /// Retorna un IQueryable con solo los usuarios activos.
         /// Puedes componer más filtros antes de ejecutar ToList(), FirstOrDefault(), etc.
         /// </summary>
-        private IQueryable<Usuarios> QueryActivos()
+        private IQueryable<Usuario> QueryActivos()
         {
             return _context.Usuarios.Where(u => u.Activo);
         }
 
-        public List<Usuarios> GetAll()
+        public List<Usuario> GetAll()
         {
             return QueryActivos().ToList();
         }
 
-        public Usuarios? GetById(int id)
+        public Usuario? GetById(int id)
         {
             return QueryActivos().FirstOrDefault(u => u.Id == id);
         }
 
-        public Usuarios? GetByUsername(string username)
+        public Usuario? GetByUsername(string username)
         {
             return QueryActivos().FirstOrDefault(u => u.Username == username);
         }
 
-        public List<Usuarios> SearchByNombre(string nombre)
+        public List<Usuario> SearchByNombre(string nombre)
         {
             return QueryActivos()
                 .Where(u => u.NombreCompleto.Contains(nombre))
                 .ToList();
         }
 
-        public void Add(Usuarios usuario)
+        public void Add(Usuario usuario)
         {
             usuario.Activo = true;
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
         }
 
-        public void Update(Usuarios usuario)
+        public void Update(Usuario usuario)
         {
             _context.Usuarios.Update(usuario);
             _context.SaveChanges();

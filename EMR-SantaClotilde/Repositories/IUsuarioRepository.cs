@@ -5,12 +5,12 @@ namespace EMR_SantaClotilde.Repositories
 {
     public interface IUsuarioRepository
     {
-        Usuarios? GetById(int id);
-        List<Usuarios> GetAll();
-        Usuarios? GetByUsername(string username);
+        Usuario? GetById(int id);
+        List<Usuario> GetAll();
+        Usuario? GetByUsername(string username);
         List<Usuario> SearchByNombre(string nombre);
-        void Add(Usuarios usuario);
-        void Update(Usuarios usuario);
+        void Add(Usuario usuario);
+        void Update(Usuario usuario);
         void Delete(int id);
     }
 }
