@@ -1,22 +1,19 @@
-﻿using EMR_SantaClotilde.Models;
-using System;
+using EMR_SantaClotilde.Common;
+using EMR_SantaClotilde.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EMR_SantaClotilde.Services
 {
-    public class LoginResult
-    {
-        public bool Success { get; set; }
-        public Usuario User { get; set; }
-        public string ErrorMessage { get; set; }
-    }
-
     public interface IUsuarioService
     {
-        Task<LoginResult> AutenticarUsuario(string username, string password);
-        bool EsMedico(Usuario usuario);
+        Task<IEnumerable<Usuarios>> ObtenerTodosAsync();
+        Task<Usuarios?> ObtenerPorIdAsync(int id);
+        Task<Usuarios?> ObtenerPorUsernameAsync(string username);
+        Task<IEnumerable<Usuarios>> BuscarPorNombreAsync(string nombre);
+        Task<ResultadoOperacion> CrearAsync(Usuarios usuario);
+        Task<ResultadoOperacion> ActualizarAsync(Usuarios usuario);
+        Task<ResultadoOperacion> EliminarAsync(int id);
     }
 }
+
