@@ -215,7 +215,6 @@ namespace EMR_SantaClotilde.Services
                 return ResultadoOperacion.Fallido("Error al cancelar la cita", ex.Message);
             }
         }
-
         private ResultadoOperacion Eliminar(int id)
         {
             try
@@ -241,7 +240,9 @@ namespace EMR_SantaClotilde.Services
                 if (errores.Any())
                     return ResultadoOperacion.Fallido("No se puede eliminar la cita", errores);
 
-                _citaRepository.Delete(id);
+                // Eliminado lógico
+                cita.Activo = false;
+                _citaRepository.Update(cita);
 
                 return ResultadoOperacion.Exitoso($"Cita eliminada correctamente (ID: {id})");
             }

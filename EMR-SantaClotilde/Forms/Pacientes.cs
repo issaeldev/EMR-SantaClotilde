@@ -24,7 +24,7 @@ namespace EMR_SantaClotilde.Forms
             this.Load += Pacientes_Load;
         }
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+        private async void btnAgregar_Click(object sender, EventArgs e)
         {
             var paciente = new Paciente
             {
@@ -39,7 +39,7 @@ namespace EMR_SantaClotilde.Forms
                 Antecedentes = txtAntecedentes.Text
             };
 
-            var resultado = _pacienteService.CrearPaciente(paciente);
+            var resultado = await _pacienteService.CrearPacienteAsync(paciente);
 
             if (resultado.Exito)
             {
@@ -51,7 +51,7 @@ namespace EMR_SantaClotilde.Forms
                 MessageBox.Show("Error: " + resultado.Mensaje);
             }
         }
-        private void btnModificar_Click(object sender, EventArgs e)
+        private async void btnModificar_Click(object sender, EventArgs e)
         {
             if (dgvPacientes.CurrentRow?.DataBoundItem is not Paciente pacienteSeleccionado)
             {
@@ -68,7 +68,7 @@ namespace EMR_SantaClotilde.Forms
             pacienteSeleccionado.Alergias = txtAlergias.Text;
             pacienteSeleccionado.Antecedentes = txtAntecedentes.Text;
 
-            var resultado = _pacienteService.ActualizarPaciente(pacienteSeleccionado);
+            var resultado = await _pacienteService.ActualizarPacienteAsync(pacienteSeleccionado);
 
             if (resultado.Exito)
             {
@@ -80,7 +80,7 @@ namespace EMR_SantaClotilde.Forms
                 MessageBox.Show("Error: " + resultado.Mensaje);
             }
         }
-        private void btnEliminar_Click(object sender, EventArgs e)
+        private async void btnEliminar_Click(object sender, EventArgs e)
         {
             if (dgvPacientes.CurrentRow?.DataBoundItem is not Paciente pacienteSeleccionado)
             {
@@ -91,7 +91,7 @@ namespace EMR_SantaClotilde.Forms
             var confirm = MessageBox.Show("¿Está seguro de eliminar este paciente?", "Confirmar", MessageBoxButtons.YesNo);
             if (confirm == DialogResult.Yes)
             {
-                var resultado = _pacienteService.EliminarPaciente(pacienteSeleccionado.Id);
+                var resultado = await _pacienteService.EliminarPacienteAsync(pacienteSeleccionado.Id);
                 if (resultado.Exito)
                 {
                     MessageBox.Show("Paciente eliminado correctamente.");
@@ -125,9 +125,9 @@ namespace EMR_SantaClotilde.Forms
             dgvPacientes.SelectionChanged += dgvPacientes_SelectionChanged;
         }
 
-        private void CargarPacientes()
+        private async void CargarPacientes()
         {
-            var pacientes = _pacienteService.ObtenerTodos();
+            var pacientes = await _pacienteService.ObtenerTodosAsync();
             dgvPacientes.DataSource = pacientes;
         }
 

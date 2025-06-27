@@ -15,12 +15,25 @@ namespace EMR_SantaClotilde.Repositories
             _context = context;
         }
 
-        // Obtener todas las citas
-        public List<Cita> GetAll()
+        private IQueryable<Cita> QueryBase()
+        {
+            return _context.Set<Cita>()
+                .Include(c => c.Paciente)
+                .Include(c => c.Medico);
+        }
+
+        private IQueryable<Cita> QueryBaseWithResultados()
         {
             return _context.Set<Cita>()
                 .Include(c => c.Paciente)
                 .Include(c => c.Medico)
+                .Include(c => c.Resultados);
+        }
+
+        // Obtener todas las citas
+        public List<Cita> GetAll()
+        {
+            return QueryBase()
                 .OrderByDescending(c => c.FechaHora)
                 .ToList();
         }
@@ -28,10 +41,7 @@ namespace EMR_SantaClotilde.Repositories
         // Obtener una cita por ID
         public Cita GetById(int id)
         {
-            return _context.Set<Cita>()
-                .Include(c => c.Paciente)
-                .Include(c => c.Medico)
-                .Include(c => c.Resultados)
+            return QueryBaseWithResultados()
                 .FirstOrDefault(c => c.Id == id);
         }
 
@@ -49,7 +59,7 @@ namespace EMR_SantaClotilde.Repositories
             _context.SaveChanges();
         }
 
-        // Eliminar cita por ID
+        // Eliminado físico (puedes cambiar por lógico si tu modelo lo permite)
         public void Delete(int id)
         {
             var cita = _context.Set<Cita>().Find(id);
@@ -66,9 +76,7 @@ namespace EMR_SantaClotilde.Repositories
             var inicio = fecha.Date;
             var fin = inicio.AddDays(1).AddSeconds(-1);
 
-            return _context.Set<Cita>()
-                .Include(c => c.Paciente)
-                .Include(c => c.Medico)
+            return QueryBase()
                 .Where(c => c.FechaHora >= inicio && c.FechaHora <= fin)
                 .OrderBy(c => c.FechaHora)
                 .ToList();
@@ -77,10 +85,7 @@ namespace EMR_SantaClotilde.Repositories
         // Obtener citas de un médico, opcionalmente filtradas por fecha
         public List<Cita> GetByMedico(int medicoId, DateTime? fecha = null)
         {
-            var query = _context.Set<Cita>()
-                .Include(c => c.Paciente)
-                .Include(c => c.Medico)
-                .Where(c => c.MedicoId == medicoId);
+            var query = QueryBase().Where(c => c.MedicoId == medicoId);
 
             if (fecha.HasValue)
             {
@@ -95,8 +100,7 @@ namespace EMR_SantaClotilde.Repositories
         // Obtener citas por paciente
         public List<Cita> GetByPacienteId(int pacienteId)
         {
-            return _context.Set<Cita>()
-                .Include(c => c.Medico)
+            return QueryBase()
                 .Where(c => c.PacienteId == pacienteId)
                 .OrderByDescending(c => c.FechaHora)
                 .ToList();
@@ -105,9 +109,7 @@ namespace EMR_SantaClotilde.Repositories
         // Buscar por motivo o texto libre
         public List<Cita> SearchByMotivo(string texto)
         {
-            return _context.Set<Cita>()
-                .Include(c => c.Paciente)
-                .Include(c => c.Medico)
+            return QueryBase()
                 .Where(c => c.Motivo.Contains(texto) || c.Observaciones.Contains(texto))
                 .OrderByDescending(c => c.FechaHora)
                 .ToList();
@@ -115,24 +117,25 @@ namespace EMR_SantaClotilde.Repositories
 
         public List<Cita> GetCitasDelDia(DateTime fecha)
         {
-            return GetByFecha(fecha); 
+            return GetByFecha(fecha);
         }
 
         public List<Cita> GetCitasByMedico(int medicoId, DateTime? fecha = null)
         {
-            return GetByMedico(medicoId, fecha); 
+            return GetByMedico(medicoId, fecha);
         }
 
         public List<Cita> GetCitasByPaciente(int pacienteId)
         {
-            return GetByPacienteId(pacienteId); 
+            return GetByPacienteId(pacienteId);
         }
 
         public Cita GetCitaById(int id)
         {
-            return GetById(id); 
+            return GetById(id);
         }
-        // (opcionales)
+
+        // Verificar solapamiento de citas
         public bool ExisteSolapamiento(DateTime fechaHora, int medicoId, int? excludeId = null)
         {
             var rangoInicio = fechaHora.AddMinutes(-30);
@@ -152,10 +155,7 @@ namespace EMR_SantaClotilde.Repositories
         // Obtener citas por estado
         public List<Cita> GetByEstado(string estado, DateTime? fecha = null)
         {
-            var query = _context.Set<Cita>()
-                .Include(c => c.Paciente)
-                .Include(c => c.Medico)
-                .Where(c => c.Estado == estado);
+            var query = QueryBase().Where(c => c.Estado == estado);
 
             if (fecha.HasValue)
             {
@@ -173,9 +173,7 @@ namespace EMR_SantaClotilde.Repositories
             var ahora = DateTime.Now;
             var limite = ahora.AddHours(horas);
 
-            return _context.Set<Cita>()
-                .Include(c => c.Paciente)
-                .Include(c => c.Medico)
+            return QueryBase()
                 .Where(c => c.FechaHora >= ahora && c.FechaHora <= limite)
                 .Where(c => c.Estado == "Programada")
                 .OrderBy(c => c.FechaHora)
@@ -185,8 +183,7 @@ namespace EMR_SantaClotilde.Repositories
         // Obtener estadísticas de citas por médico
         public Dictionary<string, int> GetEstadisticasPorMedico(DateTime fechaInicio, DateTime fechaFin)
         {
-            return _context.Set<Cita>()
-                .Include(c => c.Medico)
+            return QueryBase()
                 .Where(c => c.FechaHora >= fechaInicio && c.FechaHora <= fechaFin)
                 .GroupBy(c => c.Medico.NombreCompleto)
                 .ToDictionary(g => g.Key, g => g.Count());
@@ -197,9 +194,7 @@ namespace EMR_SantaClotilde.Repositories
         {
             var textoLower = texto.ToLower();
 
-            return _context.Set<Cita>()
-                .Include(c => c.Paciente)
-                .Include(c => c.Medico)
+            return QueryBase()
                 .Where(c =>
                     c.Motivo.ToLower().Contains(textoLower) ||
                     c.Observaciones.ToLower().Contains(textoLower) ||
