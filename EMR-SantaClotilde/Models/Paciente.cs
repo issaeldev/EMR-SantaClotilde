@@ -25,6 +25,8 @@ public partial class Paciente
 
     public string? Antecedentes { get; set; }
 
+    public bool Activo { get; set; }
+
     public virtual ICollection<Cita> Cita { get; set; } = new List<Cita>();
 
     public virtual ICollection<Resultado> Resultados { get; set; } = new List<Resultado>();

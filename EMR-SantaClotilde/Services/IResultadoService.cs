@@ -1,16 +1,10 @@
+using EMR_SantaClotilde.Common;
 using EMR_SantaClotilde.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EMR_SantaClotilde.Services
 {
-    public class ResultadoOperacion
-    {
-        public bool Exito { get; set; }
-        public Resultado? Datos { get; set; }
-        public string? MensajeError { get; set; }
-    }
-
     public interface IResultadoService
     {
         Task<ResultadoOperacion> AgregarAsync(Resultado resultado);
@@ -19,5 +13,7 @@ namespace EMR_SantaClotilde.Services
         Task<Resultado?> ObtenerPorIdAsync(int id);
         Task<IEnumerable<Resultado>> ObtenerTodosAsync();
         Task<IEnumerable<Resultado>> BuscarPorPacienteAsync(int pacienteId);
+        Task<IEnumerable<Resultado>> BuscarPorCitaAsync(int citaId);
+        Task<IEnumerable<Resultado>> ObtenerPendientesAsync();
     }
 }

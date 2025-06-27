@@ -25,7 +25,7 @@ public partial class EmrSantaClotildeContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-LH4AOJF; Database=EMR_SantaClotilde; Trusted_Connection=True; Encrypt=False;");
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=EMR_SantaClotilde;Trusted_Connection=True;Encrypt=False;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -36,12 +36,19 @@ public partial class EmrSantaClotildeContext : DbContext
             entity.ToTable("citas");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Activo)
+                .HasDefaultValue(true)
+                .HasColumnName("activo");
             entity.Property(e => e.AdicionalMotivo).HasColumnName("adicional_motivo");
             entity.Property(e => e.Estado)
                 .HasMaxLength(20)
                 .HasDefaultValue("programada")
                 .HasColumnName("estado");
+            entity.Property(e => e.FechaCreacion)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnName("fecha_creacion");
             entity.Property(e => e.FechaHora).HasColumnName("fecha_hora");
+            entity.Property(e => e.FechaModificacion).HasColumnName("fecha_modificacion");
             entity.Property(e => e.MedicoId).HasColumnName("medico_id");
             entity.Property(e => e.Motivo)
                 .HasMaxLength(255)
@@ -71,6 +78,9 @@ public partial class EmrSantaClotildeContext : DbContext
             entity.HasIndex(e => e.Dni, "UQ__paciente__D87608A7A49BB098").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Activo)
+                .HasDefaultValue(true)
+                .HasColumnName("activo");
             entity.Property(e => e.Alergias).HasColumnName("alergias");
             entity.Property(e => e.Antecedentes).HasColumnName("antecedentes");
             entity.Property(e => e.Apellidos)
@@ -101,10 +111,14 @@ public partial class EmrSantaClotildeContext : DbContext
             entity.ToTable("resultados");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Activo)
+                .HasDefaultValue(true)
+                .HasColumnName("activo");
             entity.Property(e => e.ArchivoAdjunto)
                 .HasMaxLength(255)
                 .HasColumnName("archivo_adjunto");
             entity.Property(e => e.CitaId).HasColumnName("cita_id");
+            entity.Property(e => e.FechaModificacion).HasColumnName("fecha_modificacion");
             entity.Property(e => e.FechaResultado).HasColumnName("fecha_resultado");
             entity.Property(e => e.FechaSolicitud)
                 .HasDefaultValueSql("(getdate())")

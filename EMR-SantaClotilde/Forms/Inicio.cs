@@ -1,4 +1,5 @@
-﻿using EMR_SantaClotilde.Models;
+﻿using EMR_SantaClotilde.Forms;
+using EMR_SantaClotilde.Models;
 using EMR_SantaClotilde.Services;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,14 @@ namespace EMR_SantaClotilde
     public partial class Inicio : Form
     {
         private readonly ICitaService _citaService;
+        private readonly IResultadoService _resultadoService;
+        private readonly IPacienteService _pacienteService;
+
         public Inicio(ICitaService citaService)
         {
             _citaService = citaService;
-            InitializeComponent();
+
+        InitializeComponent();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -51,7 +56,7 @@ namespace EMR_SantaClotilde
             }
         }
 
-        private void CargarAgendaDelDia()
+        private async void CargarAgendaDelDia()
         {
             try
             {
@@ -60,14 +65,14 @@ namespace EMR_SantaClotilde
                 if (usuario != null && usuario.Rol.Equals("médico", StringComparison.OrdinalIgnoreCase))
                 {
                     // Cargar solo citas del médico actual
-                    var citasMedico = _citaService.ObtenerCitasPorMedico(usuario.Id, DateTime.Today);
-                    MostrarCitasEnLista(citasMedico);
+                    var citasMedico = await _citaService.ObtenerPorMedicoAsync(usuario.Id, DateTime.Today);
+                    MostrarCitasEnLista(citasMedico.ToList());
                 }
                 else
                 {
                     // Para otros roles, cargar todas las citas del día
-                    var todasCitas = _citaService.ObtenerCitasDelDia(DateTime.Today);
-                    MostrarCitasEnLista(todasCitas);
+                    var todasCitas = await _citaService.ObtenerPorFechaAsync(DateTime.Today);
+                    MostrarCitasEnLista(todasCitas.ToList());
                 }
             }
             catch (Exception ex)
@@ -94,10 +99,10 @@ namespace EMR_SantaClotilde
 
         private void btnPacientes_Click(object sender, EventArgs e)
         {
-            // Pacientes pacientes = new Pacientes();
+            Pacientes pacientes = new Pacientes(_pacienteService);
 
-            // pacientes.Show();
-            // this.Hide(); 
+            pacientes.Show();
+            this.Hide(); 
         }
 
         private void BtnCitas_Click(object sender, EventArgs e)
@@ -111,7 +116,7 @@ namespace EMR_SantaClotilde
 
         private void BtnResultados_Click(object sender, EventArgs e)
         {
-            Resultados resultados = new Resultados(_citaService);
+            Resultados resultados = new Resultados(_resultadoService);
 
             resultados.Show();
             this.Hide();

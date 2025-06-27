@@ -16,9 +16,8 @@ namespace EMR_SantaClotilde.Forms
     {
         private readonly ICitaService _citaService;
         private readonly IPacienteService _pacienteService;
-        public Pacientes(ICitaService citaService, IPacienteService pacienteService)
+        public Pacientes(IPacienteService pacienteService)
         {
-            _citaService = citaService;
             _pacienteService = pacienteService;
 
             InitializeComponent();

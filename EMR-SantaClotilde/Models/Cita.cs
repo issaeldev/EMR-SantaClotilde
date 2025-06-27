@@ -25,6 +25,12 @@ public partial class Cita
 
     public string? AdicionalMotivo { get; set; }
 
+    public bool Activo { get; set; }
+
+    public DateTime FechaCreacion { get; set; }
+
+    public DateTime? FechaModificacion { get; set; }
+
     public virtual Usuario Medico { get; set; } = null!;
 
     public virtual Paciente Paciente { get; set; } = null!;

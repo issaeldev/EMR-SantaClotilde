@@ -29,6 +29,10 @@ public partial class Resultado
 
     public bool Sincronizado { get; set; }
 
+    public bool Activo { get; set; }
+
+    public DateTime? FechaModificacion { get; set; }
+
     public virtual Cita? Cita { get; set; }
 
     public virtual Usuario MedicoSolicitanteNavigation { get; set; } = null!;

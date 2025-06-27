@@ -1,10 +1,12 @@
 ﻿using EMR_SantaClotilde.Models;
 using EMR_SantaClotilde.Repositories;
+using EMR_SantaClotilde.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace EMR_SantaClotilde.Services
 {
@@ -53,11 +55,7 @@ namespace EMR_SantaClotilde.Services
             // Validaciones básicas
             if (string.IsNullOrWhiteSpace(paciente.Dni) || string.IsNullOrWhiteSpace(paciente.Nombres))
             {
-                return new ResultadoOperacion
-                {
-                    Exito = false,
-                    Mensaje = "DNI y Nombres son obligatorios"
-                };
+                return ResultadoOperacion.Fallido("DNI y Nombres son obligatorios");
             }
 
             try

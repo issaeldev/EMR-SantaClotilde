@@ -1,4 +1,5 @@
 using EMR_SantaClotilde.Services;
+using EMR_SantaClotilde.Models;
 using System;
 using System.Windows.Forms;
 
@@ -9,9 +10,8 @@ namespace EMR_SantaClotilde
         private readonly ICitaService _citaService;
         private readonly IResultadoService _resultadoService;
 
-        public Resultados(ICitaService citaService, IResultadoService resultadoService)
+        public Resultados(IResultadoService resultadoService)
         {
-            _citaService = citaService;
             _resultadoService = resultadoService;
         
             InitializeComponent();
@@ -53,7 +53,7 @@ namespace EMR_SantaClotilde
         
                 if (!operacion.Exito)
                 {
-                    MessageBox.Show("Error al guardar: " + operacion.MensajeError);
+                    MessageBox.Show("Error al guardar: " + operacion.Mensaje);
                     return;
                 }
         
@@ -111,7 +111,7 @@ namespace EMR_SantaClotilde
         
                 if (!operacion.Exito)
                 {
-                    MessageBox.Show("Error al modificar: " + operacion.MensajeError);
+                    MessageBox.Show("Error al modificar: " + operacion.Mensaje);
                     return;
                 }
         
@@ -167,7 +167,7 @@ namespace EMR_SantaClotilde
 
         private void btnResultados_Click(object sender, EventArgs e)
         {
-            var resultados = new Resultados(_citaService, _resultadoService);
+            var resultados = new Resultados(_resultadoService);
             resultados.Show();
             this.Hide();
         }

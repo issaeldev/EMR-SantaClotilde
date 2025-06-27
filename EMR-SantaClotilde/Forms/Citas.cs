@@ -10,7 +10,7 @@ namespace EMR_SantaClotilde
     public partial class Citas : Form
     {
         private readonly ICitaService _citaService;
-
+        private readonly IResultadoService _resultadoService;
         public Citas(ICitaService citaService)
         {
             _citaService = citaService;
@@ -27,7 +27,7 @@ namespace EMR_SantaClotilde
 
         private void CargarCitasDelDia()
         {
-            var citas = _citaService.ObtenerPorFecha(DateTime.Today);
+            var citas = _citaService.ObtenerPorFechaAsync(DateTime.Today);
             dgvCitas.DataSource = citas;
         }
 
@@ -48,12 +48,12 @@ namespace EMR_SantaClotilde
         {
             if (cmbMedico.SelectedItem is Usuario medico)
             {
-                var citas = _citaService.ObtenerPorMedico(medico.Id, dtFechaHora.Value);
+                var citas = _citaService.ObtenerPorMedicoAsync(medico.Id);
                 dgvCitas.DataSource = citas;
             }
             else if (cmbPaciente.SelectedItem is Paciente paciente)
             {
-                var citas = _citaService.ObtenerPorPaciente(paciente.Id);
+                var citas = _citaService.ObtenerPorPacienteAsync(paciente.Id);
                 dgvCitas.DataSource = citas;
             }
             else
@@ -62,7 +62,7 @@ namespace EMR_SantaClotilde
             }
         }
 
-        private void btnAgregar_Click(object sender, EventArgs e)
+        private async void btnAgregar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace EMR_SantaClotilde
                     Sincronizado = false
                 };
 
-                var resultado = _citaService.Crear(nuevaCita);
+                var resultado = await _citaService.CrearAsync(nuevaCita);
 
                 if (!resultado.Exito)
                 {
@@ -95,7 +95,7 @@ namespace EMR_SantaClotilde
             }
         }
 
-        private void btnModificar_Click(object sender, EventArgs e)
+        private async void btnModificar_Click(object sender, EventArgs e)
         {
             if (dgvCitas.CurrentRow?.DataBoundItem is not Cita citaExistente)
             {
@@ -112,7 +112,7 @@ namespace EMR_SantaClotilde
                 citaExistente.Motivo = richMotivo.Text;
                 citaExistente.Observaciones = rtbObservaciones.Text;
 
-                var resultado = _citaService.Actualizar(citaExistente);
+                var resultado = await _citaService.ActualizarAsync(citaExistente);
 
                 if (!resultado.Exito)
                 {
@@ -129,14 +129,14 @@ namespace EMR_SantaClotilde
             }
         }
 
-        private void btnCancelar_Click(object sender, EventArgs e)
+        private async void btnCancelar_Click(object sender, EventArgs e)
         {
             if (dgvCitas.CurrentRow?.DataBoundItem is Cita cita)
             {
                 var motivo = Microsoft.VisualBasic.Interaction.InputBox("Motivo de cancelación:", "Cancelar Cita");
                 if (string.IsNullOrWhiteSpace(motivo)) return;
 
-                var resultado = _citaService.Cancelar(cita.Id, motivo);
+                var resultado = await _citaService.CancelarAsync(cita.Id, motivo);
                 if (!resultado.Exito)
                 {
                     MessageBox.Show("Error al cancelar cita: " + resultado.Mensaje);
@@ -154,7 +154,7 @@ namespace EMR_SantaClotilde
 
         private void lblResultados_Click(object sender, EventArgs e)
         {
-            var resultadosForm = new Resultados(_citaService, new ResultadoService()); // cambia según tu DI real
+            var resultadosForm = new Resultados(_resultadoService);
             resultadosForm.Show();
             this.Hide();
         }
@@ -166,14 +166,14 @@ namespace EMR_SantaClotilde
             this.Hide();
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+        private async void btnEliminar_Click(object sender, EventArgs e)
         {
             if (dgvCitas.CurrentRow?.DataBoundItem is Cita cita)
             {
                 var confirm = MessageBox.Show("¿Desea eliminar esta cita?", "Confirmar", MessageBoxButtons.YesNo);
                 if (confirm == DialogResult.Yes)
                 {
-                    var resultado = _citaService.CancelarCita(cita.Id);
+                    var resultado = await _citaService.CancelarAsync(cita.Id, "Motivo");
                     if (!resultado.Exito)
                     {
                         MessageBox.Show("Error al eliminar cita: " + resultado.Mensaje);
