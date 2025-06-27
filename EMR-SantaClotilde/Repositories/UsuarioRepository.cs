@@ -13,10 +13,6 @@ namespace EMR_SantaClotilde.Repositories
             _context = context;
         }
 
-        /// <summary>
-        /// Retorna un IQueryable con solo los usuarios activos.
-        /// Puedes componer más filtros antes de ejecutar ToList(), FirstOrDefault(), etc.
-        /// </summary>
         private IQueryable<Usuario> QueryActivos()
         {
             return _context.Usuarios.Where(u => u.Activo);
