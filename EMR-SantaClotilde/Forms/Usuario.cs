@@ -12,6 +12,11 @@ namespace EMR_SantaClotilde.Forms
 
         public Usuario(IUsuarioService usuarioService)
         {
+            // Agrega los roles disponibles al ComboBox
+            cmbRol.Items.Clear();
+            cmbRol.Items.Add("Doctor");
+            cmbRol.Items.Add("Admin");
+            cmbRol.SelectedIndex = 0; // Selecciona el primero por defecto
             _usuarioService = usuarioService;
             InitializeComponent();
             this.Load += Usuario_Load;
