@@ -9,12 +9,12 @@ namespace EMR_SantaClotilde.Repositories
 {
     public interface IPacienteRepository
     {
-        Paciente GetById(int id);
-        List<Paciente> GetAll();
-        Paciente GetByDni(string dni);
-        List<Paciente> SearchByNombre(string nombre);
-        void Add(Paciente paciente);
-        void Update(Paciente paciente);
-        void Delete(int id);
+        Task<Paciente?> GetByIdAsync(int id);
+        Task<List<Paciente>> GetAllAsync();
+        Task<Paciente?> GetByDniAsync(string dni);
+        Task<List<Paciente>> SearchByNombreAsync(string nombre);
+        Task AddAsync(Paciente paciente);
+        Task UpdateAsync(Paciente paciente);
+        Task DeleteAsync(int id);
     }
 }

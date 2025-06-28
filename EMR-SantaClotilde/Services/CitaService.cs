@@ -83,7 +83,20 @@ namespace EMR_SantaClotilde.Services
                 return ResultadoOperacion.Fallido("Error de validación", errores);
 
             cita.Estado = string.IsNullOrEmpty(cita.Estado) ? "Programada" : cita.Estado;
-            await _citaRepository.AddAsync(cita);
+
+            try
+            {
+                // Tu lógica que guarda en la base de datos
+                await _citaRepository.AddAsync(cita);
+            }
+            catch (Exception ex)
+            {
+                string err = ex.Message;
+                if (ex.InnerException != null)
+                    err += "\nInner: " + ex.InnerException.Message;
+
+                MessageBox.Show(err);
+            }
 
             return ResultadoOperacion.Exitoso("Cita creada correctamente");
         }

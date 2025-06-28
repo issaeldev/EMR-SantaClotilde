@@ -359,6 +359,8 @@
             // chkActivo
             // 
             chkActivo.AutoSize = true;
+            chkActivo.Checked = true;
+            chkActivo.CheckState = CheckState.Checked;
             chkActivo.Location = new Point(258, 287);
             chkActivo.Margin = new Padding(3, 2, 3, 2);
             chkActivo.Name = "chkActivo";

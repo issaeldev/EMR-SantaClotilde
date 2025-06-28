@@ -40,7 +40,7 @@ namespace EMR_SantaClotilde.Forms
             if (dgvUsuarios.CurrentRow?.DataBoundItem is Usuario usuario)
             {
                 txtUsername.Text = usuario.Username;
-                txtPassword.Text = ""; // <--- SIEMPRE vacío
+                txtPassword.Text = "";
                 txtNombre.Text = usuario.NombreCompleto;
                 cmbRol.Text = usuario.Rol;
                 txtEspecialidad.Text = usuario.Especialidad;
@@ -65,7 +65,7 @@ namespace EMR_SantaClotilde.Forms
             if (resultado.Exito)
             {
                 MessageBox.Show("Usuario agregado correctamente.");
-                CargarUsuarios();
+                await CargarUsuarios();
             }
             else
             {
@@ -127,7 +127,7 @@ namespace EMR_SantaClotilde.Forms
                 {
                     MessageBox.Show("Usuario eliminado correctamente.");
                     
-                    CargarUsuarios();
+                    await CargarUsuarios();
                 }
                 else
                 {

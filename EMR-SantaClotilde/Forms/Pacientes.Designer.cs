@@ -167,6 +167,7 @@
             // 
             // dtFechaNacimiento
             // 
+            dtFechaNacimiento.Format = DateTimePickerFormat.Custom;
             dtFechaNacimiento.Location = new Point(248, 118);
             dtFechaNacimiento.Name = "dtFechaNacimiento";
             dtFechaNacimiento.Size = new Size(143, 23);
@@ -446,6 +447,8 @@
             // chkActivo
             // 
             chkActivo.AutoSize = true;
+            chkActivo.Checked = true;
+            chkActivo.CheckState = CheckState.Checked;
             chkActivo.Location = new Point(254, 358);
             chkActivo.Name = "chkActivo";
             chkActivo.Size = new Size(60, 19);

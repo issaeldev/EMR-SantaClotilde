@@ -19,22 +19,22 @@ namespace EMR_SantaClotilde.Services
 
         public async Task<IEnumerable<Paciente>> ObtenerTodosAsync()
         {
-            return await Task.Run(() => _pacienteRepository.GetAll());
+            return await Task.Run(() => _pacienteRepository.GetAllAsync());
         }
 
         public async Task<Paciente?> ObtenerPorIdAsync(int id)
         {
-            return await Task.Run(() => _pacienteRepository.GetById(id));
+            return await Task.Run(() => _pacienteRepository.GetByIdAsync(id));
         }
 
         public async Task<Paciente?> ObtenerPorDniAsync(string dni)
         {
-            return await Task.Run(() => _pacienteRepository.GetByDni(dni));
+            return await Task.Run(() => _pacienteRepository.GetByDniAsync(dni));
         }
 
         public async Task<IEnumerable<Paciente>> BuscarPorNombreAsync(string nombre)
         {
-            return await Task.Run(() => _pacienteRepository.SearchByNombre(nombre));
+            return await Task.Run(() => _pacienteRepository.SearchByNombreAsync(nombre));
         }
 
         public async Task<ResultadoOperacion> CrearPacienteAsync(Paciente paciente)
@@ -61,11 +61,11 @@ namespace EMR_SantaClotilde.Services
             try
             {
                 // Validar que el DNI no esté repetido
-                var existente = await Task.Run(() => _pacienteRepository.GetByDni(paciente.Dni));
+                var existente = await Task.Run(() => _pacienteRepository.GetByDniAsync(paciente.Dni));
                 if (existente != null)
                     return ResultadoOperacion.Fallido("Ya existe un paciente con ese DNI.");
 
-                await Task.Run(() => _pacienteRepository.Add(paciente));
+                await Task.Run(() => _pacienteRepository.AddAsync(paciente));
                 return ResultadoOperacion.Exitoso("Paciente creado correctamente");
             }
             catch (Exception ex)
@@ -101,11 +101,11 @@ namespace EMR_SantaClotilde.Services
             try
             {
                 // Verifica que el DNI no esté repetido por otro paciente
-                var existente = await Task.Run(() => _pacienteRepository.GetByDni(paciente.Dni));
+                var existente = await Task.Run(() => _pacienteRepository.GetByDniAsync(paciente.Dni));
                 if (existente != null && existente.Id != paciente.Id)
                     return ResultadoOperacion.Fallido("Ya existe otro paciente con ese DNI.");
 
-                await Task.Run(() => _pacienteRepository.Update(paciente));
+                await Task.Run(() => _pacienteRepository.UpdateAsync(paciente));
                 return ResultadoOperacion.Exitoso("Paciente actualizado correctamente");
             }
             catch (Exception ex)
@@ -118,7 +118,7 @@ namespace EMR_SantaClotilde.Services
         {
             try
             {
-                var paciente = await Task.Run(() => _pacienteRepository.GetById(id));
+                var paciente = await Task.Run(() => _pacienteRepository.GetByIdAsync(id));
                 if (paciente == null)
                 {
                     return ResultadoOperacion.Fallido("Paciente no encontrado");
@@ -126,7 +126,7 @@ namespace EMR_SantaClotilde.Services
 
                 // Eliminado lógico: desactivar el registro
                 paciente.Activo = false;
-                await Task.Run(() => _pacienteRepository.Update(paciente));
+                await Task.Run(() => _pacienteRepository.UpdateAsync(paciente));
 
                 return ResultadoOperacion.Exitoso("Paciente eliminado correctamente (eliminado lógico)");
             }

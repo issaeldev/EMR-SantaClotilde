@@ -59,6 +59,8 @@
             label2 = new Label();
             pictureBox3 = new PictureBox();
             btnEliminar = new Button();
+            chkActivo = new CheckBox();
+            btnLimpiar = new Button();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pcbInicio).BeginInit();
@@ -114,7 +116,7 @@
             // 
             // rtbObservaciones
             // 
-            rtbObservaciones.Location = new Point(255, 317);
+            rtbObservaciones.Location = new Point(256, 279);
             rtbObservaciones.Name = "rtbObservaciones";
             rtbObservaciones.Size = new Size(143, 82);
             rtbObservaciones.TabIndex = 61;
@@ -125,7 +127,7 @@
             lblObservaciones.AutoSize = true;
             lblObservaciones.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
             lblObservaciones.ForeColor = Color.CadetBlue;
-            lblObservaciones.Location = new Point(255, 295);
+            lblObservaciones.Location = new Point(256, 257);
             lblObservaciones.Name = "lblObservaciones";
             lblObservaciones.Size = new Size(107, 19);
             lblObservaciones.TabIndex = 60;
@@ -133,6 +135,9 @@
             // 
             // dtFecha
             // 
+            dtFecha.CustomFormat = "dd/MM/yyyy HH:mm";
+            dtFecha.Format = DateTimePickerFormat.Custom;
+            dtFecha.ImeMode = ImeMode.NoControl;
             dtFecha.Location = new Point(41, 257);
             dtFecha.Name = "dtFecha";
             dtFecha.Size = new Size(143, 23);
@@ -367,7 +372,7 @@
             // 
             richMotivo.Location = new Point(255, 199);
             richMotivo.Name = "richMotivo";
-            richMotivo.Size = new Size(143, 82);
+            richMotivo.Size = new Size(143, 55);
             richMotivo.TabIndex = 67;
             richMotivo.Text = "";
             // 
@@ -409,11 +414,42 @@
             btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
+            // chkActivo
+            // 
+            chkActivo.AutoSize = true;
+            chkActivo.Checked = true;
+            chkActivo.CheckState = CheckState.Checked;
+            chkActivo.Location = new Point(255, 379);
+            chkActivo.Name = "chkActivo";
+            chkActivo.Size = new Size(60, 19);
+            chkActivo.TabIndex = 70;
+            chkActivo.Text = "Activo";
+            chkActivo.UseVisualStyleBackColor = true;
+            // 
+            // btnLimpiar
+            // 
+            btnLimpiar.BackColor = Color.PaleTurquoise;
+            btnLimpiar.FlatAppearance.BorderColor = Color.Teal;
+            btnLimpiar.FlatAppearance.BorderSize = 0;
+            btnLimpiar.FlatStyle = FlatStyle.Flat;
+            btnLimpiar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnLimpiar.ForeColor = SystemColors.ControlText;
+            btnLimpiar.Location = new Point(203, 478);
+            btnLimpiar.Margin = new Padding(3, 2, 3, 2);
+            btnLimpiar.Name = "btnLimpiar";
+            btnLimpiar.Size = new Size(96, 34);
+            btnLimpiar.TabIndex = 103;
+            btnLimpiar.Text = "Limpiar";
+            btnLimpiar.UseVisualStyleBackColor = false;
+            btnLimpiar.Click += btnLimpiar_Click;
+            // 
             // Citas
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(985, 533);
+            Controls.Add(btnLimpiar);
+            Controls.Add(chkActivo);
             Controls.Add(btnEliminar);
             Controls.Add(pictureBox3);
             Controls.Add(richMotivo);
@@ -487,5 +523,7 @@
         private Label label2;
         private PictureBox pictureBox3;
         private Button btnEliminar;
+        private CheckBox chkActivo;
+        private Button btnLimpiar;
     }
 }

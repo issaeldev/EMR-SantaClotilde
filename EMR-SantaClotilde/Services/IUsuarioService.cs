@@ -16,6 +16,7 @@ namespace EMR_SantaClotilde.Services
         Task<ResultadoOperacion> EliminarAsync(int id);
         Task<LoginResult> AutenticarUsuario(string username, string password);
         bool EsMedico(Usuario usuario);
+        Task<IEnumerable<Usuario>> ObtenerMedicosAsync();
     }
 }
 

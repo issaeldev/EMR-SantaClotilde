@@ -172,5 +172,15 @@ namespace EMR_SantaClotilde.Services
             return string.Equals(usuario.Rol, "Medico", StringComparison.OrdinalIgnoreCase)
                 || string.Equals(usuario.Rol, "Médico", StringComparison.OrdinalIgnoreCase);
         }
+
+        public async Task<IEnumerable<Usuario>> ObtenerMedicosAsync()
+        {
+            var todos = await _usuarioRepository.GetAllAsync();
+            return todos.Where(u =>
+                (u.Rol != null) &&
+                (u.Rol.Equals("Medico", StringComparison.OrdinalIgnoreCase) || u.Rol.Equals("Médico", StringComparison.OrdinalIgnoreCase))
+                && u.Activo
+            ).ToList();
+        }
     }
 }

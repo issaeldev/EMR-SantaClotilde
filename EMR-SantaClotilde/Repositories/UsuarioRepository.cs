@@ -20,22 +20,6 @@ namespace EMR_SantaClotilde.Repositories
             return context.Usuarios.Where(u => u.Activo);
         }
 
-        public Usuario? GetById(int id)
-        {
-            using (var context = _contextFactory.CreateDbContext())
-            {
-                return QueryActivos(context).FirstOrDefault(u => u.Id == id);
-            }
-        }
-
-        public List<Usuario> GetAll()
-        {
-            using (var context = _contextFactory.CreateDbContext())
-            {
-                return QueryActivos(context).ToList();
-            }
-        }
-
         public async Task<Usuario?> GetByIdAsync(int id)
         {
             using (var context = _contextFactory.CreateDbContext())
