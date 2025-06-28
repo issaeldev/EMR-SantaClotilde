@@ -39,26 +39,72 @@ namespace EMR_SantaClotilde.Services
 
         public async Task<ResultadoOperacion> CrearPacienteAsync(Paciente paciente)
         {
-            if (string.IsNullOrWhiteSpace(paciente.Dni) || string.IsNullOrWhiteSpace(paciente.Nombres))
-            {
-                return ResultadoOperacion.Fallido("DNI y Nombres son obligatorios");
-            }
+            // Validación de campos obligatorios
+            if (string.IsNullOrWhiteSpace(paciente.Dni))
+                return ResultadoOperacion.Fallido("El DNI es obligatorio.");
+            if (string.IsNullOrWhiteSpace(paciente.Nombres))
+                return ResultadoOperacion.Fallido("El nombre es obligatorio.");
+            if (string.IsNullOrWhiteSpace(paciente.Apellidos))
+                return ResultadoOperacion.Fallido("El apellido es obligatorio.");
+            if (paciente.FechaNacimiento == default)
+                return ResultadoOperacion.Fallido("La fecha de nacimiento es obligatoria.");
+            if (string.IsNullOrWhiteSpace(paciente.Genero))
+                return ResultadoOperacion.Fallido("El género es obligatorio.");
+            if (string.IsNullOrWhiteSpace(paciente.Direccion))
+                return ResultadoOperacion.Fallido("La dirección es obligatoria.");
+
+            // Validación de género permitido
+            var generosValidos = new[] { "M", "F", "Otro" };
+            if (!generosValidos.Contains(paciente.Genero))
+                return ResultadoOperacion.Fallido("El género debe ser 'M', 'F' u 'Otro'.");
 
             try
             {
+                // Validar que el DNI no esté repetido
+                var existente = await Task.Run(() => _pacienteRepository.GetByDni(paciente.Dni));
+                if (existente != null)
+                    return ResultadoOperacion.Fallido("Ya existe un paciente con ese DNI.");
+
                 await Task.Run(() => _pacienteRepository.Add(paciente));
                 return ResultadoOperacion.Exitoso("Paciente creado correctamente");
             }
             catch (Exception ex)
             {
+                // Puedes analizar si ex es de tipo SqlException y el código de error si quieres un mensaje más detallado
                 return ResultadoOperacion.Fallido($"Error al crear el paciente: {ex.Message}");
             }
         }
 
         public async Task<ResultadoOperacion> ActualizarPacienteAsync(Paciente paciente)
         {
+            // Validación de campos obligatorios
+            if (paciente.Id <= 0)
+                return ResultadoOperacion.Fallido("El ID del paciente es obligatorio.");
+            if (string.IsNullOrWhiteSpace(paciente.Dni))
+                return ResultadoOperacion.Fallido("El DNI es obligatorio.");
+            if (string.IsNullOrWhiteSpace(paciente.Nombres))
+                return ResultadoOperacion.Fallido("El nombre es obligatorio.");
+            if (string.IsNullOrWhiteSpace(paciente.Apellidos))
+                return ResultadoOperacion.Fallido("El apellido es obligatorio.");
+            if (paciente.FechaNacimiento == default)
+                return ResultadoOperacion.Fallido("La fecha de nacimiento es obligatoria.");
+            if (string.IsNullOrWhiteSpace(paciente.Genero))
+                return ResultadoOperacion.Fallido("El género es obligatorio.");
+            if (string.IsNullOrWhiteSpace(paciente.Direccion))
+                return ResultadoOperacion.Fallido("La dirección es obligatoria.");
+
+            // Validación de género permitido
+            var generosValidos = new[] { "M", "F", "Otro" };
+            if (!generosValidos.Contains(paciente.Genero))
+                return ResultadoOperacion.Fallido("El género debe ser 'M', 'F' u 'Otro'.");
+
             try
             {
+                // Verifica que el DNI no esté repetido por otro paciente
+                var existente = await Task.Run(() => _pacienteRepository.GetByDni(paciente.Dni));
+                if (existente != null && existente.Id != paciente.Id)
+                    return ResultadoOperacion.Fallido("Ya existe otro paciente con ese DNI.");
+
                 await Task.Run(() => _pacienteRepository.Update(paciente));
                 return ResultadoOperacion.Exitoso("Paciente actualizado correctamente");
             }
