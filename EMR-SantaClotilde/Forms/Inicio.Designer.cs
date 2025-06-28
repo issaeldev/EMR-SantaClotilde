@@ -120,6 +120,7 @@
             btnPacientes.TabIndex = 1;
             btnPacientes.Text = "PACIENTES";
             btnPacientes.UseVisualStyleBackColor = true;
+            btnPacientes.Click += btnPacientes_Click;
             // 
             // pictureBox1
             // 

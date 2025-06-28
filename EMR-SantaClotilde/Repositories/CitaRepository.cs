@@ -3,89 +3,90 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EMR_SantaClotilde.Repositories
 {
     internal class CitaRepository : ICitaRepository
     {
-        private readonly EmrSantaClotildeContext _context;
+        private readonly IDbContextFactory<EmrSantaClotildeContext> _contextFactory;
 
-        public CitaRepository(EmrSantaClotildeContext context)
+        public CitaRepository(IDbContextFactory<EmrSantaClotildeContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory;
         }
 
-        private IQueryable<Cita> QueryBase()
+        private IQueryable<Cita> QueryBase(EmrSantaClotildeContext context)
         {
-            return _context.Set<Cita>()
+            return context.Set<Cita>()
                 .Include(c => c.Paciente)
                 .Include(c => c.Medico);
         }
 
-        private IQueryable<Cita> QueryBaseWithResultados()
+        private IQueryable<Cita> QueryBaseWithResultados(EmrSantaClotildeContext context)
         {
-            return _context.Set<Cita>()
+            return context.Set<Cita>()
                 .Include(c => c.Paciente)
                 .Include(c => c.Medico)
                 .Include(c => c.Resultados);
         }
 
-        // Obtener todas las citas
-        public List<Cita> GetAll()
+        public async Task<List<Cita>> GetAllAsync()
         {
-            return QueryBase()
+            using var context = _contextFactory.CreateDbContext();
+            return await QueryBase(context)
                 .OrderByDescending(c => c.FechaHora)
-                .ToList();
+                .ToListAsync();
         }
 
-        // Obtener una cita por ID
-        public Cita GetById(int id)
+        public async Task<Cita?> GetByIdAsync(int id)
         {
-            return QueryBaseWithResultados()
-                .FirstOrDefault(c => c.Id == id);
+            using var context = _contextFactory.CreateDbContext();
+            return await QueryBaseWithResultados(context)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        // Agregar nueva cita
-        public void Add(Cita cita)
+        public async Task AddAsync(Cita cita)
         {
-            _context.Set<Cita>().Add(cita);
-            _context.SaveChanges();
+            using var context = _contextFactory.CreateDbContext();
+            context.Set<Cita>().Add(cita);
+            await context.SaveChangesAsync();
         }
 
-        // Actualizar cita existente
-        public void Update(Cita cita)
+        public async Task UpdateAsync(Cita cita)
         {
-            _context.Set<Cita>().Update(cita);
-            _context.SaveChanges();
+            using var context = _contextFactory.CreateDbContext();
+            context.Set<Cita>().Update(cita);
+            await context.SaveChangesAsync();
         }
 
-        // Eliminado físico (puedes cambiar por lógico si tu modelo lo permite)
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var cita = _context.Set<Cita>().Find(id);
+            using var context = _contextFactory.CreateDbContext();
+            var cita = await context.Set<Cita>().FindAsync(id);
             if (cita != null)
             {
-                _context.Set<Cita>().Remove(cita);
-                _context.SaveChanges();
+                context.Set<Cita>().Remove(cita);
+                await context.SaveChangesAsync();
             }
         }
 
-        // Obtener citas de un día específico
-        public List<Cita> GetByFecha(DateTime fecha)
+        public async Task<List<Cita>> GetByFechaAsync(DateTime fecha)
         {
+            using var context = _contextFactory.CreateDbContext();
             var inicio = fecha.Date;
             var fin = inicio.AddDays(1).AddSeconds(-1);
 
-            return QueryBase()
+            return await QueryBase(context)
                 .Where(c => c.FechaHora >= inicio && c.FechaHora <= fin)
                 .OrderBy(c => c.FechaHora)
-                .ToList();
+                .ToListAsync();
         }
 
-        // Obtener citas de un médico, opcionalmente filtradas por fecha
-        public List<Cita> GetByMedico(int medicoId, DateTime? fecha = null)
+        public async Task<List<Cita>> GetByMedicoAsync(int medicoId, DateTime? fecha = null)
         {
-            var query = QueryBase().Where(c => c.MedicoId == medicoId);
+            using var context = _contextFactory.CreateDbContext();
+            var query = QueryBase(context).Where(c => c.MedicoId == medicoId);
 
             if (fecha.HasValue)
             {
@@ -94,54 +95,34 @@ namespace EMR_SantaClotilde.Repositories
                 query = query.Where(c => c.FechaHora >= inicio && c.FechaHora <= fin);
             }
 
-            return query.OrderBy(c => c.FechaHora).ToList();
+            return await query.OrderBy(c => c.FechaHora).ToListAsync();
         }
 
-        // Obtener citas por paciente
-        public List<Cita> GetByPacienteId(int pacienteId)
+        public async Task<List<Cita>> GetByPacienteIdAsync(int pacienteId)
         {
-            return QueryBase()
+            using var context = _contextFactory.CreateDbContext();
+            return await QueryBase(context)
                 .Where(c => c.PacienteId == pacienteId)
                 .OrderByDescending(c => c.FechaHora)
-                .ToList();
+                .ToListAsync();
         }
 
-        // Buscar por motivo o texto libre
-        public List<Cita> SearchByMotivo(string texto)
+        public async Task<List<Cita>> SearchByMotivoAsync(string texto)
         {
-            return QueryBase()
+            using var context = _contextFactory.CreateDbContext();
+            return await QueryBase(context)
                 .Where(c => c.Motivo.Contains(texto) || c.Observaciones.Contains(texto))
                 .OrderByDescending(c => c.FechaHora)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Cita> GetCitasDelDia(DateTime fecha)
+        public async Task<bool> ExisteSolapamientoAsync(DateTime fechaHora, int medicoId, int? excludeId = null)
         {
-            return GetByFecha(fecha);
-        }
-
-        public List<Cita> GetCitasByMedico(int medicoId, DateTime? fecha = null)
-        {
-            return GetByMedico(medicoId, fecha);
-        }
-
-        public List<Cita> GetCitasByPaciente(int pacienteId)
-        {
-            return GetByPacienteId(pacienteId);
-        }
-
-        public Cita GetCitaById(int id)
-        {
-            return GetById(id);
-        }
-
-        // Verificar solapamiento de citas
-        public bool ExisteSolapamiento(DateTime fechaHora, int medicoId, int? excludeId = null)
-        {
+            using var context = _contextFactory.CreateDbContext();
             var rangoInicio = fechaHora.AddMinutes(-30);
             var rangoFin = fechaHora.AddMinutes(30);
 
-            var query = _context.Set<Cita>()
+            var query = context.Set<Cita>()
                 .Where(c => c.MedicoId == medicoId)
                 .Where(c => c.FechaHora >= rangoInicio && c.FechaHora <= rangoFin)
                 .Where(c => c.Estado != "Cancelada");
@@ -149,13 +130,13 @@ namespace EMR_SantaClotilde.Repositories
             if (excludeId.HasValue)
                 query = query.Where(c => c.Id != excludeId.Value);
 
-            return query.Any();
+            return await query.AnyAsync();
         }
 
-        // Obtener citas por estado
-        public List<Cita> GetByEstado(string estado, DateTime? fecha = null)
+        public async Task<List<Cita>> GetByEstadoAsync(string estado, DateTime? fecha = null)
         {
-            var query = QueryBase().Where(c => c.Estado == estado);
+            using var context = _contextFactory.CreateDbContext();
+            var query = QueryBase(context).Where(c => c.Estado == estado);
 
             if (fecha.HasValue)
             {
@@ -164,37 +145,37 @@ namespace EMR_SantaClotilde.Repositories
                 query = query.Where(c => c.FechaHora >= inicio && c.FechaHora <= fin);
             }
 
-            return query.OrderBy(c => c.FechaHora).ToList();
+            return await query.OrderBy(c => c.FechaHora).ToListAsync();
         }
 
-        // Obtener próximas citas (útil para recordatorios)
-        public List<Cita> GetProximasCitas(int horas = 24)
+        public async Task<List<Cita>> GetProximasCitasAsync(int horas = 24)
         {
+            using var context = _contextFactory.CreateDbContext();
             var ahora = DateTime.Now;
             var limite = ahora.AddHours(horas);
 
-            return QueryBase()
+            return await QueryBase(context)
                 .Where(c => c.FechaHora >= ahora && c.FechaHora <= limite)
                 .Where(c => c.Estado == "Programada")
                 .OrderBy(c => c.FechaHora)
-                .ToList();
+                .ToListAsync();
         }
 
-        // Obtener estadísticas de citas por médico
-        public Dictionary<string, int> GetEstadisticasPorMedico(DateTime fechaInicio, DateTime fechaFin)
+        public async Task<Dictionary<string, int>> GetEstadisticasPorMedicoAsync(DateTime fechaInicio, DateTime fechaFin)
         {
-            return QueryBase()
+            using var context = _contextFactory.CreateDbContext();
+            return await QueryBase(context)
                 .Where(c => c.FechaHora >= fechaInicio && c.FechaHora <= fechaFin)
                 .GroupBy(c => c.Medico.NombreCompleto)
-                .ToDictionary(g => g.Key, g => g.Count());
+                .ToDictionaryAsync(g => g.Key, g => g.Count());
         }
 
-        // Buscar citas con texto libre (búsqueda más amplia)
-        public List<Cita> BuscarTextoLibre(string texto)
+        public async Task<List<Cita>> BuscarTextoLibreAsync(string texto)
         {
+            using var context = _contextFactory.CreateDbContext();
             var textoLower = texto.ToLower();
 
-            return QueryBase()
+            return await QueryBase(context)
                 .Where(c =>
                     c.Motivo.ToLower().Contains(textoLower) ||
                     c.Observaciones.ToLower().Contains(textoLower) ||
@@ -202,7 +183,7 @@ namespace EMR_SantaClotilde.Repositories
                     c.Medico.NombreCompleto.ToLower().Contains(textoLower) ||
                     c.Tipo.ToLower().Contains(textoLower))
                 .OrderByDescending(c => c.FechaHora)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

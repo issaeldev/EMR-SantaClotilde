@@ -126,6 +126,7 @@ namespace EMR_SantaClotilde.Forms
                 if (resultado.Exito)
                 {
                     MessageBox.Show("Usuario eliminado correctamente.");
+                    
                     CargarUsuarios();
                 }
                 else

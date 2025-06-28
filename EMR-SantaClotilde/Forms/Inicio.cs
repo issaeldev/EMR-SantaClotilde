@@ -1,6 +1,7 @@
 ﻿using EMR_SantaClotilde.Forms;
 using EMR_SantaClotilde.Models;
 using EMR_SantaClotilde.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,14 +17,13 @@ namespace EMR_SantaClotilde
     public partial class Inicio : Form
     {
         private readonly ICitaService _citaService;
-        private readonly IResultadoService _resultadoService;
-        private readonly IPacienteService _pacienteService;
+        private readonly IServiceProvider _serviceProvider;
 
-        public Inicio(ICitaService citaService)
+        public Inicio(IServiceProvider serviceProvider, ICitaService citaService)
         {
+            _serviceProvider = serviceProvider;
             _citaService = citaService;
-
-        InitializeComponent();
+            InitializeComponent();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -98,28 +98,24 @@ namespace EMR_SantaClotilde
             }
         }
 
-        private void btnPacientes_Click(object sender, EventArgs e)
-        {
-            Pacientes pacientes = new Pacientes(_pacienteService);
-
-            pacientes.Show();
-            this.Hide(); 
-        }
-
         private void BtnCitas_Click(object sender, EventArgs e)
         {
-            // Crear una nueva instancia del segundo formulario
-            Citas citas = new Citas(_citaService);
-
+            var citas = _serviceProvider.GetRequiredService<Citas>();
             citas.Show();
-            this.Hide();  
+            this.Hide();
         }
 
         private void BtnResultados_Click(object sender, EventArgs e)
         {
-            Resultados resultados = new Resultados(_resultadoService);
-
+            var resultados = _serviceProvider.GetRequiredService<Resultados>();
             resultados.Show();
+            this.Hide();
+        }
+
+        private void btnPacientes_Click(object sender, EventArgs e)
+        {
+            var pacientes = _serviceProvider.GetRequiredService<Pacientes>();
+            pacientes.Show();
             this.Hide();
         }
     }

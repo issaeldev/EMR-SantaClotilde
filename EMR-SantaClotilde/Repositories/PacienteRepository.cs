@@ -1,4 +1,5 @@
 ﻿using EMR_SantaClotilde.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,65 +7,68 @@ namespace EMR_SantaClotilde.Repositories
 {
     public class PacienteRepository : IPacienteRepository
     {
-        private readonly EmrSantaClotildeContext _context;
+        private readonly IDbContextFactory<EmrSantaClotildeContext> _contextFactory;
 
-        public PacienteRepository(EmrSantaClotildeContext context)
+        public PacienteRepository(IDbContextFactory<EmrSantaClotildeContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory;
         }
 
-        /// <summary>
-        /// Retorna un IQueryable con solo los pacientes activos.
-        /// Puedes componer más filtros antes de ejecutar ToList(), FirstOrDefault(), etc.
-        /// </summary>
-        public IQueryable<Paciente> QueryActivos()
+        public IQueryable<Paciente> QueryActivos(EmrSantaClotildeContext context)
         {
-            return _context.Pacientes.Where(p => p.Activo);
+            return context.Pacientes.Where(p => p.Activo);
         }
 
         public List<Paciente> GetAll()
         {
-            return QueryActivos().ToList();
+            using var context = _contextFactory.CreateDbContext();
+            return QueryActivos(context).ToList();
         }
 
         public Paciente? GetById(int id)
         {
-            return QueryActivos().FirstOrDefault(p => p.Id == id);
+            using var context = _contextFactory.CreateDbContext();
+            return QueryActivos(context).FirstOrDefault(p => p.Id == id);
         }
 
         public Paciente? GetByDni(string dni)
         {
-            return QueryActivos().FirstOrDefault(p => p.Dni == dni);
+            using var context = _contextFactory.CreateDbContext();
+            return QueryActivos(context).FirstOrDefault(p => p.Dni == dni);
         }
 
         public List<Paciente> SearchByNombre(string nombre)
         {
-            return QueryActivos()
+            using var context = _contextFactory.CreateDbContext();
+            return QueryActivos(context)
                 .Where(p => p.Nombres.Contains(nombre))
                 .ToList();
         }
 
         public void Add(Paciente paciente)
         {
+            using var context = _contextFactory.CreateDbContext();
             paciente.Activo = true; // Por defecto activo al crear
-            _context.Pacientes.Add(paciente);
-            _context.SaveChanges();
+            context.Pacientes.Add(paciente);
+            context.SaveChanges();
         }
 
         public void Update(Paciente paciente)
         {
-            _context.Pacientes.Update(paciente);
-            _context.SaveChanges();
+            using var context = _contextFactory.CreateDbContext();
+            context.Pacientes.Update(paciente);
+            context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var paciente = _context.Pacientes.FirstOrDefault(p => p.Id == id);
+            using var context = _contextFactory.CreateDbContext();
+            var paciente = context.Pacientes.FirstOrDefault(p => p.Id == id);
             if (paciente != null)
             {
                 paciente.Activo = false;            // ← Borrado lógico
-                _context.Pacientes.Update(paciente);
-                _context.SaveChanges();
+                context.Pacientes.Update(paciente);
+                context.SaveChanges();
             }
         }
     }

@@ -1,17 +1,18 @@
 using EMR_SantaClotilde.Forms;
 using EMR_SantaClotilde.Models;
 using EMR_SantaClotilde.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EMR_SantaClotilde
 {
     public partial class Login : Form
     {
-        private readonly ICitaService _citaService;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IUsuarioService _usuarioService;
 
-        public Login(ICitaService citaService, IUsuarioService usuarioService)
+        public Login(IUsuarioService usuarioService, IServiceProvider serviceProvider)
         {
-            _citaService = citaService;
+            _serviceProvider = serviceProvider;
             _usuarioService = usuarioService;
             InitializeComponent();
         }
@@ -19,7 +20,7 @@ namespace EMR_SantaClotilde
         private async void btnLogin_Click(object sender, EventArgs e)
         {
 
-            // PRUEBA
+            /* PRUEBA
             var usuario = new Usuario
             {
                 Username = "mariaadmin",
@@ -42,7 +43,7 @@ namespace EMR_SantaClotilde
                     : "";
                 MessageBox.Show("Error: " + resultade.Mensaje + errores);
             }
-            // PRUEBA
+            PRUEBA */
 
             // Deshabilitar botón durante login
             btnLogin.Enabled = false;
@@ -74,8 +75,9 @@ namespace EMR_SantaClotilde
                     if (esMedico)
                     {
                         // Abrir formulario para médicos
-                        Inicio inicioMedico = new Inicio(_citaService);
-                        inicioMedico.Show();
+                        var inicio = _serviceProvider.GetRequiredService<Inicio>();
+                        inicio.Show();
+                        this.Hide();
 
                         MessageBox.Show($"Bienvenido Dr. {resultado.Usuario.NombreCompleto}\n" +
                                        $"Especialidad: {resultado.Usuario.Especialidad}",
@@ -92,13 +94,15 @@ namespace EMR_SantaClotilde
                         switch (resultado.Usuario.Rol.ToLower())
                         {
                             case "admin":
-                                Usuarios usuarios = new Usuarios(_usuarioService);
+                                var usuarios = _serviceProvider.GetRequiredService<Usuarios>();
                                 usuarios.Show();
+                                this.Hide();
                                 break;
 
                             default:
-                                Inicio inicioGeneral = new Inicio(_citaService);
-                                inicioGeneral.Show();
+                                var inicio = _serviceProvider.GetRequiredService<Inicio>();
+                                inicio.Show();
+                                this.Hide();
                                 break;
                         }
                     }

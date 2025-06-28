@@ -1,5 +1,6 @@
 ﻿using EMR_SantaClotilde.Models;
 using EMR_SantaClotilde.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,10 +15,11 @@ namespace EMR_SantaClotilde.Forms
 {
     public partial class Pacientes : Form
     {
-        private readonly ICitaService _citaService;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IPacienteService _pacienteService;
-        public Pacientes(IPacienteService pacienteService)
+        public Pacientes(IPacienteService pacienteService, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             _pacienteService = pacienteService;
 
             InitializeComponent();
@@ -127,26 +129,42 @@ namespace EMR_SantaClotilde.Forms
 
         private async void CargarPacientes()
         {
+            if (dgvPacientes == null)
+            {
+                MessageBox.Show("Error: dgvPacientes es null");
+                return;
+            }
+            if (_pacienteService == null)
+            {
+                MessageBox.Show("Error: _pacienteService es null");
+                return;
+            }
+
             var pacientes = await _pacienteService.ObtenerTodosAsync();
+            if (pacientes == null)
+            {
+                MessageBox.Show("Error: pacientes es null");
+                pacientes = new List<Paciente>();
+            }
             dgvPacientes.DataSource = pacientes;
         }
 
         private void lblPacientes_Click_1(object sender, EventArgs e)
         {
-            Pacientes paciente = new Pacientes(_pacienteService); // Reinicia el formulario actual si deseas
-            paciente.Show();
+            var pacientes = _serviceProvider.GetRequiredService<Pacientes>();
+            pacientes.Show();
             this.Hide();
         }
 
         private void lblCitas_Click(object sender, EventArgs e)
         {
-            Citas citas = new Citas(_citaService);
+            var citas = _serviceProvider.GetRequiredService<Citas>();
             citas.Show();
             this.Hide();
         }
         private void lblInicio_Click(object sender, EventArgs e)
         {
-            Inicio inicio = new Inicio(_citaService);
+            var inicio = _serviceProvider.GetRequiredService<Inicio>();
             inicio.Show();
             this.Hide();
         }

@@ -4,18 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using EMR_SantaClotilde.Forms;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EMR_SantaClotilde
 {
     public partial class Citas : Form
     {
         private readonly ICitaService _citaService;
-        private readonly IResultadoService _resultadoService;
-        public Citas(ICitaService citaService)
+        private readonly IServiceProvider _serviceProvider;
+
+
+        public Citas(IServiceProvider serviceProvider, ICitaService citaService)
         {
+            _serviceProvider = serviceProvider;
             _citaService = citaService;
             InitializeComponent();
-            this.Load += Citas_Load;
         }
 
         private void Citas_Load(object sender, EventArgs e)
@@ -154,15 +158,22 @@ namespace EMR_SantaClotilde
 
         private void lblResultados_Click(object sender, EventArgs e)
         {
-            var resultadosForm = new Resultados(_resultadoService);
-            resultadosForm.Show();
+            var resultados = _serviceProvider.GetRequiredService<Resultados>();
+            resultados.Show();
             this.Hide();
         }
 
         private void lblInicio_Click(object sender, EventArgs e)
         {
-            var inicioForm = new Inicio(_citaService);
-            inicioForm.Show();
+            var inicio = _serviceProvider.GetRequiredService<Inicio>();
+            inicio.Show();
+            this.Hide();
+        }
+
+        private void lblPacientes_Click(object sender, EventArgs e)
+        {
+            var pacientes = _serviceProvider.GetRequiredService<Pacientes>();
+            pacientes.Show();
             this.Hide();
         }
 
@@ -184,6 +195,6 @@ namespace EMR_SantaClotilde
                     CargarCitasDelDia();
                 }
             }
-        }
+        }        
     }
 }

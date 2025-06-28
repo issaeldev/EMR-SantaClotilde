@@ -1,5 +1,7 @@
 using EMR_SantaClotilde.Services;
 using EMR_SantaClotilde.Models;
+using EMR_SantaClotilde.Forms;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows.Forms;
 
@@ -7,11 +9,12 @@ namespace EMR_SantaClotilde
 {
     public partial class Resultados : Form
     {
-        private readonly ICitaService _citaService;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IResultadoService _resultadoService;
 
-        public Resultados(IResultadoService resultadoService)
+        public Resultados(IResultadoService resultadoService, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             _resultadoService = resultadoService;
         
             InitializeComponent();
@@ -167,30 +170,28 @@ namespace EMR_SantaClotilde
 
         private void btnResultados_Click(object sender, EventArgs e)
         {
-            var resultados = new Resultados(_resultadoService);
+            var resultados = _serviceProvider.GetRequiredService<Resultados>();
             resultados.Show();
             this.Hide();
         }
 
         private void lblInicio_Click(object sender, EventArgs e)
         {
-            Inicio inicio = new Inicio(_citaService);
+            var inicio = _serviceProvider.GetRequiredService<Inicio>();
             inicio.Show();
             this.Hide();
         }
 
         private void lblPacientes_Click(object sender, EventArgs e)
         {
-            /*
-            Pacientes pacientes = new Pacientes();
+            var pacientes = _serviceProvider.GetRequiredService<Pacientes>();
             pacientes.Show();
-            this.Hide(); 
-            */
+            this.Hide();
         }
 
         private void lblCitas_Click(object sender, EventArgs e)
         {
-            Citas citas = new Citas(_citaService);
+            var citas = _serviceProvider.GetRequiredService<Citas>();
             citas.Show();
             this.Hide();
         }
