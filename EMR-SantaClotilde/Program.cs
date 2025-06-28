@@ -3,6 +3,7 @@ using EMR_SantaClotilde.Repositories;
 using EMR_SantaClotilde.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 
 namespace EMR_SantaClotilde
 {
@@ -31,15 +32,15 @@ namespace EMR_SantaClotilde
         private static void ConfigureServices(ServiceCollection services)
         {
             // Registrar el contexto de BD
-            services.AddDbContext<EmrSantaClotildeContext>(options =>
-                options.UseSqlServer("Server=DESKTOP-F9RKFQ1; Database=EMR_SantaClotilde; Trusted_Connection=True; Encrypt=False;"));
-
+            services.AddDbContextFactory<EmrSantaClotildeContext>(options =>
+            options.UseSqlServer("Server=DESKTOP-F9RKFQ1; Database=EMR_SantaClotilde; Trusted_Connection=True; Encrypt=False;"));
             // Registrar repositorios
             services.AddScoped<ICitaRepository, CitaRepository>();
 
             // Registrar servicios
             services.AddScoped<ICitaService, CitaService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 
             // Registrar formularios

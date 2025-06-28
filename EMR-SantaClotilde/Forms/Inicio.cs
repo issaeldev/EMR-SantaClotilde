@@ -30,6 +30,7 @@ namespace EMR_SantaClotilde
         {
             base.OnLoad(e);
             CargarAgendaDelDia();
+            MostrarInformacionUsuario();
         }
 
         private void MostrarInformacionUsuario()

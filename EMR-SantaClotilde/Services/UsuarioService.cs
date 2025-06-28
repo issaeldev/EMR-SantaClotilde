@@ -61,7 +61,10 @@ namespace EMR_SantaClotilde.Services
                 errores.Add("Ya existe un usuario con ese nombre de usuario");
 
             if (errores.Any())
-                return ResultadoOperacion.Fallido("Error de validación", errores);
+                return ResultadoOperacion.Fallido(
+                    "Error de validación",
+                    string.Join("\n", errores)
+                );
 
             usuario.PasswordHash = BCrypt.Net.BCrypt.HashPassword(usuario.PasswordHash);
             usuario.Activo = true;
@@ -73,7 +76,14 @@ namespace EMR_SantaClotilde.Services
             }
             catch (Exception ex)
             {
-                return ResultadoOperacion.Fallido("Error al crear el usuario", ex.Message);
+                Exception inner = ex;
+                string detalles = "";
+                while (inner != null)
+                {
+                    detalles += inner.Message + "\n";
+                    inner = inner.InnerException;
+                }
+                return ResultadoOperacion.Fallido("Error al crear el usuario", detalles);
             }
         }
 
@@ -95,12 +105,12 @@ namespace EMR_SantaClotilde.Services
                 return ResultadoOperacion.Fallido("Error de validación", errores);
 
             // Si quieres actualizar la contraseña solo si se envía una nueva
-            if (!string.IsNullOrWhiteSpace(usuario.PasswordHash) &&
-                !BCrypt.Net.BCrypt.Verify(usuario.PasswordHash, usuarioExistente.PasswordHash))
+            if (!string.IsNullOrWhiteSpace(usuario.PasswordHash))
             {
                 usuarioExistente.PasswordHash = BCrypt.Net.BCrypt.HashPassword(usuario.PasswordHash);
             }
 
+            usuarioExistente.Username = usuario.Username;
             usuarioExistente.NombreCompleto = usuario.NombreCompleto;
             usuarioExistente.Rol = usuario.Rol;
             usuarioExistente.Especialidad = usuario.Especialidad;
@@ -143,14 +153,7 @@ namespace EMR_SantaClotilde.Services
             return BCrypt.Net.BCrypt.Verify(plainPassword, passwordHash);
         }
 
-        bool EsMedico(Usuario usuario)
-        {
-            if (usuario == null) return false;
-            return string.Equals(usuario.Rol, "Medico", StringComparison.OrdinalIgnoreCase)
-                || string.Equals(usuario.Rol, "Médico", StringComparison.OrdinalIgnoreCase);
-        }
-
-        async Task<LoginResult> AutenticarUsuario(string username, string password)
+        async Task<LoginResult> IUsuarioService.AutenticarUsuario(string username, string password)
         {
             var usuario = await _usuarioRepository.GetByUsernameAsync(username);
 
@@ -161,6 +164,13 @@ namespace EMR_SantaClotilde.Services
                 return LoginResult.Fallido("Contraseña incorrecta");
 
             return LoginResult.Exitoso(usuario);
+        }
+
+        bool IUsuarioService.EsMedico(Usuario usuario)
+        {
+            if (usuario == null) return false;
+            return string.Equals(usuario.Rol, "Medico", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(usuario.Rol, "Médico", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

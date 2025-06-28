@@ -149,7 +149,7 @@
             lblBienvenido.AutoSize = true;
             lblBienvenido.Font = new Font("Ebrima", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblBienvenido.ForeColor = Color.CadetBlue;
-            lblBienvenido.Location = new Point(342, 45);
+            lblBienvenido.Location = new Point(373, 56);
             lblBienvenido.Name = "lblBienvenido";
             lblBienvenido.Size = new Size(105, 21);
             lblBienvenido.TabIndex = 2;
@@ -187,9 +187,9 @@
             PerformLayout();
         }
 
-		#endregion
+        #endregion
 
-		private Panel panel1;
+        private Panel panel1;
         private PictureBox pictureBox1;
         private Button btnPacientes;
         private PictureBox pictureBox2;

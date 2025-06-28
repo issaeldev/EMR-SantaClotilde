@@ -1,3 +1,5 @@
+using EMR_SantaClotilde.Forms;
+using EMR_SantaClotilde.Models;
 using EMR_SantaClotilde.Services;
 
 namespace EMR_SantaClotilde
@@ -16,6 +18,32 @@ namespace EMR_SantaClotilde
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
+
+            // PRUEBA
+            var usuario = new Usuario
+            {
+                Username = "mariaadmin",
+                PasswordHash = "admin123", // Solo para pruebas. No usar en producción sin hash.
+                NombreCompleto = "María González",
+                Rol = "admin",
+                Especialidad = "Sistemas",
+                Activo = true
+            };
+
+            var resultade = await _usuarioService.CrearAsync(usuario);
+            if (resultade.Exito)
+            {
+                MessageBox.Show("Usuario agregado correctamente.");
+            }
+            else
+            {
+                string errores = resultade.Errores != null && resultade.Errores.Any()
+                    ? "\n" + string.Join("\n", resultade.Errores)
+                    : "";
+                MessageBox.Show("Error: " + resultade.Mensaje + errores);
+            }
+            // PRUEBA
+
             // Deshabilitar botón durante login
             btnLogin.Enabled = false;
 
@@ -63,14 +91,9 @@ namespace EMR_SantaClotilde
                         // Determina el formulario a mostrar según el rol
                         switch (resultado.Usuario.Rol.ToLower())
                         {
-                            case "administrador":
-                                // FormularioAdmin admin = new FormularioAdmin(_servicios);
-                                // admin.Show();
-                                break;
-
-                            case "recepcionista":
-                                // FormularioRecepcion recepcion = new FormularioRecepcion(_servicios);
-                                // recepcion.Show();
+                            case "admin":
+                                Usuarios usuarios = new Usuarios(_usuarioService);
+                                usuarios.Show();
                                 break;
 
                             default:

@@ -8,70 +8,97 @@ namespace EMR_SantaClotilde.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly EmrSantaClotildeContext _context;
+        private readonly IDbContextFactory<EmrSantaClotildeContext> _contextFactory;
 
-        public UsuarioRepository(EmrSantaClotildeContext context)
+        public UsuarioRepository(IDbContextFactory<EmrSantaClotildeContext> contextFactory)
         {
-            _context = context;
+            _contextFactory = contextFactory;
         }
 
-        private IQueryable<Usuario> QueryActivos()
+        private IQueryable<Usuario> QueryActivos(EmrSantaClotildeContext context)
         {
-            return _context.Usuarios.Where(u => u.Activo);
+            return context.Usuarios.Where(u => u.Activo);
         }
 
         public Usuario? GetById(int id)
         {
-            return QueryActivos().FirstOrDefault(u => u.Id == id);
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return QueryActivos(context).FirstOrDefault(u => u.Id == id);
+            }
         }
 
         public List<Usuario> GetAll()
         {
-            return QueryActivos().ToList();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return QueryActivos(context).ToList();
+            }
         }
 
         public async Task<Usuario?> GetByIdAsync(int id)
         {
-            return await QueryActivos().FirstOrDefaultAsync(u => u.Id == id);
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await QueryActivos(context).FirstOrDefaultAsync(u => u.Id == id);
+            }
         }
 
         public async Task<List<Usuario>> GetAllAsync()
         {
-            return await QueryActivos().ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await QueryActivos(context).ToListAsync();
+            }
         }
 
         public async Task<Usuario?> GetByUsernameAsync(string username)
         {
-            return await QueryActivos().FirstOrDefaultAsync(u => u.Username == username);
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await QueryActivos(context).FirstOrDefaultAsync(u => u.Username == username);
+            }
         }
 
         public async Task<List<Usuario>> SearchByNombreAsync(string nombre)
         {
-            return await QueryActivos()
-                .Where(u => u.NombreCompleto.Contains(nombre))
-                .ToListAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                return await QueryActivos(context)
+                    .Where(u => u.NombreCompleto.Contains(nombre))
+                    .ToListAsync();
+            }
         }
 
         public async Task AddAsync(Usuario usuario)
         {
-            await _context.Usuarios.AddAsync(usuario);
-            await _context.SaveChangesAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                await context.Usuarios.AddAsync(usuario);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task UpdateAsync(Usuario usuario)
         {
-            _context.Usuarios.Update(usuario);
-            await _context.SaveChangesAsync();
+            using (var context = _contextFactory.CreateDbContext())
+            {
+                context.Usuarios.Update(usuario);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteAsync(int id)
         {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null && usuario.Activo)
+            using (var context = _contextFactory.CreateDbContext())
             {
-                usuario.Activo = false; // Eliminado lógico
-                _context.Usuarios.Update(usuario);
-                await _context.SaveChangesAsync();
+                var usuario = await context.Usuarios.FindAsync(id);
+                if (usuario != null && usuario.Activo)
+                {
+                    usuario.Activo = false; // Eliminado lógico
+                    context.Usuarios.Update(usuario);
+                    await context.SaveChangesAsync();
+                }
             }
         }
     }
