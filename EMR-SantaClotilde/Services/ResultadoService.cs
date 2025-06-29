@@ -89,31 +89,6 @@ namespace EMR_SantaClotilde.Services
             if (resultadoExistente == null)
                 return ResultadoOperacion.Fallido("El resultado no existe");
 
-            // No permitir modificar resultados ya procesados
-            if (resultadoExistente.FechaResultado.HasValue &&
-                resultadoExistente.FechaResultado.Value.Date < System.DateTime.Now.Date)
-            {
-                return ResultadoOperacion.Fallido("No se puede modificar un resultado que ya fue procesado anteriormente");
-            }
-
-            if (string.IsNullOrWhiteSpace(resultado.TipoExamen))
-                errores.Add("El tipo de examen es requerido");
-
-            if (string.IsNullOrWhiteSpace(resultado.NombreExamen))
-                errores.Add("El nombre del examen es requerido");
-
-            if (resultado.PacienteId <= 0)
-                errores.Add("Debe especificar un paciente válido");
-
-            if (resultado.MedicoSolicitante <= 0)
-                errores.Add("Debe especificar un médico válido");
-
-            if (resultado.FechaSolicitud > System.DateTime.Now)
-                errores.Add("La fecha de solicitud no puede ser futura");
-
-            if (resultado.FechaResultado.HasValue && resultado.FechaResultado.Value < resultado.FechaSolicitud)
-                errores.Add("La fecha del resultado no puede ser anterior a la fecha de solicitud");
-
             // Validaciones cruzadas si cambiaron los IDs
             if (resultado.PacienteId != resultadoExistente.PacienteId)
             {
