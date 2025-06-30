@@ -477,7 +477,7 @@ namespace EMR_SantaClotilde
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(970, 561);
             Controls.Add(btnExportarPDF);
             Controls.Add(txtArchivoAdjunto);
