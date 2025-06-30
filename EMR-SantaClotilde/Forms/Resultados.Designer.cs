@@ -50,6 +50,8 @@ namespace EMR_SantaClotilde
             lblArchivoAdjunto = new Label();
             btnEliminar = new Button();
             btnLimpiar = new Button();
+            txtArchivoAdjunto = new TextBox();
+            btnExportarPDF = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pcbPacientes).BeginInit();
@@ -99,7 +101,7 @@ namespace EMR_SantaClotilde
             btnAgregar.FlatStyle = FlatStyle.Flat;
             btnAgregar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAgregar.ForeColor = Color.White;
-            btnAgregar.Location = new Point(37, 435);
+            btnAgregar.Location = new Point(40, 467);
             btnAgregar.Margin = new Padding(3, 2, 3, 2);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Size = new Size(93, 45);
@@ -115,7 +117,7 @@ namespace EMR_SantaClotilde
             dgvResultados.Margin = new Padding(3, 2, 3, 2);
             dgvResultados.Name = "dgvResultados";
             dgvResultados.RowHeadersWidth = 51;
-            dgvResultados.Size = new Size(443, 310);
+            dgvResultados.Size = new Size(443, 325);
             dgvResultados.TabIndex = 9;
             // 
             // pictureBox2
@@ -130,6 +132,7 @@ namespace EMR_SantaClotilde
             // 
             // cmbPaciente
             // 
+            cmbPaciente.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPaciente.FormattingEnabled = true;
             cmbPaciente.Location = new Point(37, 130);
             cmbPaciente.Name = "cmbPaciente";
@@ -138,6 +141,7 @@ namespace EMR_SantaClotilde
             // 
             // cmbCita
             // 
+            cmbCita.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCita.FormattingEnabled = true;
             cmbCita.Location = new Point(37, 187);
             cmbCita.Name = "cmbCita";
@@ -146,6 +150,7 @@ namespace EMR_SantaClotilde
             // 
             // cmbMedico
             // 
+            cmbMedico.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbMedico.FormattingEnabled = true;
             cmbMedico.Location = new Point(37, 246);
             cmbMedico.Name = "cmbMedico";
@@ -283,7 +288,7 @@ namespace EMR_SantaClotilde
             btnBuscar.FlatStyle = FlatStyle.Flat;
             btnBuscar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnBuscar.ForeColor = SystemColors.ControlText;
-            btnBuscar.Location = new Point(145, 435);
+            btnBuscar.Location = new Point(148, 467);
             btnBuscar.Margin = new Padding(3, 2, 3, 2);
             btnBuscar.Name = "btnBuscar";
             btnBuscar.Size = new Size(93, 45);
@@ -300,7 +305,7 @@ namespace EMR_SantaClotilde
             btnModificar.FlatStyle = FlatStyle.Flat;
             btnModificar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnModificar.ForeColor = Color.White;
-            btnModificar.Location = new Point(255, 435);
+            btnModificar.Location = new Point(258, 467);
             btnModificar.Margin = new Padding(3, 2, 3, 2);
             btnModificar.Name = "btnModificar";
             btnModificar.Size = new Size(93, 45);
@@ -419,7 +424,7 @@ namespace EMR_SantaClotilde
             btnEliminar.FlatStyle = FlatStyle.Flat;
             btnEliminar.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold);
             btnEliminar.ForeColor = Color.White;
-            btnEliminar.Location = new Point(365, 435);
+            btnEliminar.Location = new Point(368, 467);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(93, 45);
             btnEliminar.TabIndex = 38;
@@ -435,7 +440,7 @@ namespace EMR_SantaClotilde
             btnLimpiar.FlatStyle = FlatStyle.Flat;
             btnLimpiar.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
             btnLimpiar.ForeColor = SystemColors.ControlText;
-            btnLimpiar.Location = new Point(203, 484);
+            btnLimpiar.Location = new Point(206, 516);
             btnLimpiar.Margin = new Padding(3, 2, 3, 2);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(96, 34);
@@ -444,12 +449,38 @@ namespace EMR_SantaClotilde
             btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click_1;
             // 
+            // txtArchivoAdjunto
+            // 
+            txtArchivoAdjunto.Location = new Point(37, 432);
+            txtArchivoAdjunto.Name = "txtArchivoAdjunto";
+            txtArchivoAdjunto.Size = new Size(361, 23);
+            txtArchivoAdjunto.TabIndex = 105;
+            // 
+            // btnExportarPDF
+            // 
+            btnExportarPDF.BackColor = Color.DarkCyan;
+            btnExportarPDF.FlatAppearance.BorderColor = Color.Teal;
+            btnExportarPDF.FlatAppearance.BorderSize = 0;
+            btnExportarPDF.FlatStyle = FlatStyle.Flat;
+            btnExportarPDF.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnExportarPDF.ForeColor = Color.White;
+            btnExportarPDF.Location = new Point(778, 467);
+            btnExportarPDF.Margin = new Padding(3, 2, 3, 2);
+            btnExportarPDF.Name = "btnExportarPDF";
+            btnExportarPDF.Size = new Size(151, 45);
+            btnExportarPDF.TabIndex = 106;
+            btnExportarPDF.Text = "Exportar en PDF";
+            btnExportarPDF.UseVisualStyleBackColor = false;
+            btnExportarPDF.Click += btnExportarPDF_Click;
+            // 
             // Resultados
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(970, 527);
+            ClientSize = new Size(970, 561);
+            Controls.Add(btnExportarPDF);
+            Controls.Add(txtArchivoAdjunto);
             Controls.Add(btnLimpiar);
             Controls.Add(btnEliminar);
             Controls.Add(lblArchivoAdjunto);
@@ -531,5 +562,7 @@ namespace EMR_SantaClotilde
         private PictureBox pictureBox3;
         private Label lblArchivoAdjunto;
         private Button btnLimpiar;
+        private TextBox txtArchivoAdjunto;
+        private Button btnExportarPDF;
     }
 }

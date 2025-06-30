@@ -205,6 +205,7 @@
             // 
             // cmbMedico
             // 
+            cmbMedico.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbMedico.FormattingEnabled = true;
             cmbMedico.Location = new Point(41, 199);
             cmbMedico.Name = "cmbMedico";
@@ -224,6 +225,7 @@
             // 
             // cmbPaciente
             // 
+            cmbPaciente.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbPaciente.FormattingEnabled = true;
             cmbPaciente.Location = new Point(41, 141);
             cmbPaciente.Name = "cmbPaciente";

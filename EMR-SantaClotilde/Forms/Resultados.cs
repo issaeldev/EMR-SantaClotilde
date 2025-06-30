@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace EMR_SantaClotilde
 {
@@ -108,7 +111,15 @@ namespace EMR_SantaClotilde
                 cmbMedico.SelectedIndex = -1;
 
                 // Cargar citas
-                var citas = (await citaService.ObtenerTodasAsync()).ToList();
+                var citas = (await citaService.ObtenerTodasAsync())
+                .Where(c => !string.Equals(c.Estado, "cancelada", StringComparison.OrdinalIgnoreCase))
+                .Select(c => new
+                {
+                    Id = c.Id,
+                    Motivo = char.ToUpper(c.Motivo[0]) + c.Motivo.Substring(1)
+                })
+                .ToList();
+
                 cmbCita.DataSource = null;
                 cmbCita.DataSource = citas;
                 cmbCita.DisplayMember = "Motivo";
@@ -118,6 +129,52 @@ namespace EMR_SantaClotilde
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar los datos: {ex.Message}");
+            }
+            cmbPaciente.SelectedIndexChanged += FiltroCitas_Changed;
+            cmbMedico.SelectedIndexChanged += FiltroCitas_Changed;
+        }
+
+        private async void FiltroCitas_Changed(object sender, EventArgs e)
+        {
+            try
+            {
+                var citaService = _serviceProvider.GetRequiredService<ICitaService>();
+                int? pacienteId = cmbPaciente.SelectedValue is int pid && pid > 0 ? pid : (int?)null;
+                int? medicoId = cmbMedico.SelectedValue is int mid && mid > 0 ? mid : (int?)null;
+
+                var todasCitas = (await citaService.ObtenerTodasAsync())
+                .Where(c => !string.Equals(c.Estado, "cancelada", StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+                var citasFiltradas = todasCitas
+                .Where(c =>
+                    (!pacienteId.HasValue || c.PacienteId == pacienteId) &&
+                    (!medicoId.HasValue || c.MedicoId == medicoId)
+                )
+                .Select(c => new Cita
+                {
+                    Id = c.Id,
+                    PacienteId = c.PacienteId,
+                    MedicoId = c.MedicoId,
+                    FechaHora = c.FechaHora,
+                    Estado = c.Estado,
+                    Activo = c.Activo,
+                    // Capitalizar motivo
+                    Motivo = !string.IsNullOrWhiteSpace(c.Motivo)
+                        ? char.ToUpper(c.Motivo[0]) + c.Motivo.Substring(1).ToLower()
+                        : c.Motivo
+                })
+                .ToList();
+
+                cmbCita.DataSource = null;
+                cmbCita.DataSource = citasFiltradas;
+                cmbCita.DisplayMember = "Motivo";
+                cmbCita.ValueMember = "Id";
+                cmbCita.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al filtrar citas: " + ex.Message);
             }
         }
 
@@ -133,6 +190,7 @@ namespace EMR_SantaClotilde
                     r.Id,
                     Paciente = r.Paciente != null ? $"{r.Paciente.Nombres} {r.Paciente.Apellidos}" : "N/A",
                     Medico = r.MedicoSolicitanteNavigation?.NombreCompleto ?? "N/A",
+                    Cita = r.Cita != null ? string.IsNullOrWhiteSpace(r.Cita.Motivo) ? string.Empty : char.ToUpper(r.Cita.Motivo[0]) + r.Cita.Motivo.Substring(1) : "N/A",
                     r.NombreExamen,
                     r.TipoExamen,
                     r.FechaSolicitud,
@@ -170,6 +228,7 @@ namespace EMR_SantaClotilde
                     dtFechaResultado.Value = resultado.FechaResultado ?? DateTime.Today;
                     rtbResultado.Text = resultado.Resultado1 ?? "";
                     cmbUnidadMedida.Text = resultado.UnidadMedida ?? "";
+                    txtArchivoAdjunto.Text = resultado.ArchivoAdjunto ?? "pendiente";
                 }
             }
         }
@@ -292,12 +351,14 @@ namespace EMR_SantaClotilde
 
             try
             {
+                /*
                 // Debug: Mostrar qué se está intentando modificar
                 MessageBox.Show($"DEBUG: Modificando resultado ID: {resultadoId}\n" +
                                $"Paciente: {cmbPaciente.Text}\n" +
                                $"Médico: {cmbMedico.Text}\n" +
                                $"Tipo: {cmbTipoExamen.Text}\n" +
                                $"Nombre: {cmbNombreExamen.Text}");
+                */
 
                 // Crear un nuevo objeto Resultado con los datos del formulario
                 var resultadoModificado = new Resultado
@@ -315,11 +376,14 @@ namespace EMR_SantaClotilde
                     ArchivoAdjunto = string.IsNullOrWhiteSpace(rtbResultado.Text) ? "pendiente" : "completado"
                 };
 
+                /*
                 MessageBox.Show("DEBUG: Llamando al servicio ModificarAsync...");
-
+                */
                 var operacion = await _resultadoService.ModificarAsync(resultadoModificado);
 
+                /*
                 MessageBox.Show($"DEBUG: Operación completada. Éxito: {operacion.Exito}");
+                */
 
                 if (!operacion.Exito)
                 {
@@ -497,5 +561,77 @@ namespace EMR_SantaClotilde
             this.Hide();
         }
 
+        private void btnExportarPDF_Click(object sender, EventArgs e)
+        {
+            if (cmbPaciente.SelectedItem is not Paciente paciente)
+            {
+                MessageBox.Show("Seleccione un paciente para exportar sus resultados.");
+                return;
+            }
+            // Filtra resultados del paciente seleccionado
+            var resultadosPaciente = _resultadosOriginales.Where(r => r.PacienteId == paciente.Id).ToList();
+            if (!resultadosPaciente.Any())
+            {
+                MessageBox.Show("No hay resultados para exportar de este paciente.");
+                return;
+            }
+
+            using (var saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Filter = "Archivo PDF|*.pdf";
+                saveFileDialog.Title = "Guardar Resultados en PDF";
+                saveFileDialog.FileName = $"Resultados_{paciente.Nombres}_{paciente.Apellidos}_{DateTime.Now:yyyyMMdd}.pdf";
+                if (saveFileDialog.ShowDialog() != DialogResult.OK)
+                    return;
+
+                var doc = new Document(PageSize.A4, 40, 40, 40, 40);
+                using (var stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                {
+                    PdfWriter.GetInstance(doc, stream);
+                    doc.Open();
+
+                    // Logo
+                    var logo = iTextSharp.text.Image.GetInstance("../../../img/logo.png");
+                    float availableWidth = doc.PageSize.Width - doc.LeftMargin - doc.RightMargin;
+                    logo.ScaleToFit(availableWidth, 120);
+                    logo.Alignment = iTextSharp.text.Image.ALIGN_CENTER;
+                    doc.Add(logo);
+
+                    // Título
+                    var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
+                    var subFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+                    doc.Add(new Paragraph("Resultados de Laboratorio", titleFont) { Alignment = Element.ALIGN_CENTER });
+                    doc.Add(new Paragraph($"Paciente: {paciente.Nombres} {paciente.Apellidos}", subFont));
+                    doc.Add(new Paragraph($"DNI: {paciente.Dni}", subFont));
+                    doc.Add(new Paragraph($"Fecha de Exportación: {DateTime.Now:dd/MM/yyyy}", subFont));
+                    doc.Add(new Paragraph(" "));
+
+                    // Tabla de resultados
+                    var table = new PdfPTable(6) { WidthPercentage = 100 };
+                    table.SetWidths(new float[] { 2, 2, 2, 2, 2, 2 });
+                    table.AddCell("Fecha");
+                    table.AddCell("Examen");
+                    table.AddCell("Tipo");
+                    table.AddCell("Resultado");
+                    table.AddCell("Unidad");
+                    table.AddCell("Médico");
+
+                    foreach (var r in resultadosPaciente)
+                    {
+                        table.AddCell(r.FechaSolicitud.ToString("dd/MM/yyyy"));
+                        table.AddCell(r.NombreExamen);
+                        table.AddCell(r.TipoExamen);
+                        table.AddCell(r.Resultado1 ?? "");
+                        table.AddCell(r.UnidadMedida ?? "");
+                        table.AddCell(r.MedicoSolicitanteNavigation?.NombreCompleto ?? "");
+                    }
+                    doc.Add(table);
+
+                    doc.Close();
+                }
+                MessageBox.Show("PDF exportado correctamente.", "Exportación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+        }
     }
 }

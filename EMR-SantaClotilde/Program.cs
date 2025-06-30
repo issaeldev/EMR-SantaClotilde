@@ -40,12 +40,14 @@ namespace EMR_SantaClotilde
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ICitaRepository, CitaRepository>();
             services.AddScoped<IPacienteRepository, PacienteRepository>();
-
+            services.AddScoped<IResultadoRepository, ResultadoRepository>();
 
             // Registrar servicios
             services.AddScoped<ICitaService, CitaService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IPacienteService, PacienteService>();
+            services.AddScoped<IResultadoService, ResultadoService>();
+
 
 
 
@@ -55,7 +57,8 @@ namespace EMR_SantaClotilde
             services.AddTransient<Usuarios>();
             services.AddTransient<Pacientes>();
             services.AddTransient<Citas>();
-            services.AddTransient<Resultados>(); 
+            services.AddTransient<Resultados>();
+            
             // Agrega aquí más formularios que requieran inyección
         }
     }

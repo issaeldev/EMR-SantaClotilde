@@ -34,9 +34,19 @@ namespace EMR_SantaClotilde.Repositories
         public async Task<List<Cita>> GetAllAsync()
         {
             using var context = _contextFactory.CreateDbContext();
-            return await QueryBase(context).Where(c => c.Activo)
-                .OrderByDescending(c => c.FechaHora)
+            var now = DateTime.Now;
+
+            var futuras = await QueryBase(context)
+                .Where(c => c.Activo && c.FechaHora >= now)
+                .OrderBy(c => c.FechaHora)
                 .ToListAsync();
+
+            var pasadas = await QueryBase(context)
+                .Where(c => c.Activo && c.FechaHora < now)
+                .OrderBy(c => c.FechaHora)
+                .ToListAsync();
+
+            return futuras.Concat(pasadas).ToList();
         }
 
         public async Task<Cita?> GetByIdAsync(int id)

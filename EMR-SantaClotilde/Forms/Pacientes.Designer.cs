@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             btnEliminar = new Button();
-            lblArchivoAdjunto = new Label();
             lblListaResultadosMedicos = new Label();
             btnModificar = new Button();
             btnBuscar = new Button();
@@ -86,17 +85,6 @@
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
-            // 
-            // lblArchivoAdjunto
-            // 
-            lblArchivoAdjunto.AutoSize = true;
-            lblArchivoAdjunto.Font = new Font("Ebrima", 10.2F, FontStyle.Bold);
-            lblArchivoAdjunto.ForeColor = Color.CadetBlue;
-            lblArchivoAdjunto.Location = new Point(36, 390);
-            lblArchivoAdjunto.Name = "lblArchivoAdjunto";
-            lblArchivoAdjunto.Size = new Size(116, 19);
-            lblArchivoAdjunto.TabIndex = 67;
-            lblArchivoAdjunto.Text = "Archivo adjunto";
             // 
             // lblListaResultadosMedicos
             // 
@@ -488,7 +476,6 @@
             Controls.Add(txtApellido);
             Controls.Add(txtNombre);
             Controls.Add(btnEliminar);
-            Controls.Add(lblArchivoAdjunto);
             Controls.Add(lblListaResultadosMedicos);
             Controls.Add(btnModificar);
             Controls.Add(btnBuscar);
@@ -526,7 +513,6 @@
         #endregion
 
         private Button btnEliminar;
-        private Label lblArchivoAdjunto;
         private Label lblListaResultadosMedicos;
         private Button btnModificar;
         private Button btnBuscar;

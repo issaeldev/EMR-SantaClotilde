@@ -52,7 +52,7 @@ namespace EMR_SantaClotilde
         private async void Citas_Load(object sender, EventArgs e)
         {
             await CargarPacientesYMedicosAsync();
-            CargarCitasDelDia();
+            await CargarCitasDelDia();
             dgvCitas.SelectionChanged += dgvCitas_SelectionChanged;
             // TODO: Cargar datos a combos: cmbPaciente, cmbMedico, cmbEstado
         }
@@ -123,7 +123,7 @@ namespace EMR_SantaClotilde
                     dtFecha.Value = cita.FechaHora;
                     cmbEstado.Text = string.IsNullOrWhiteSpace(cita.Estado) ? string.Empty : char.ToUpper(cita.Estado[0]) + cita.Estado.Substring(1);
                     cmbTipo.Text = string.IsNullOrWhiteSpace(cita.Tipo) ? string.Empty : char.ToUpper(cita.Tipo[0]) + cita.Tipo.Substring(1);
-                    cmbMotivo.Text = cita.Motivo;
+                    cmbMotivo.Text = string.IsNullOrWhiteSpace(cita.Motivo) ? string.Empty : char.ToUpper(cita.Motivo[0]) + cita.Motivo.Substring(1);
                     rtbObservaciones.Text = cita.Observaciones;
                     richMotivo.Text = cita.AdicionalMotivo;
                 }
@@ -213,7 +213,7 @@ namespace EMR_SantaClotilde
                     FechaHora = dtFecha.Value,
                     Estado = cmbEstado.Text.ToLower(),
                     Tipo = cmbTipo.Text.ToLower(),
-                    Motivo = cmbMotivo.Text,
+                    Motivo = cmbMotivo.Text.ToLower(),
                     AdicionalMotivo = richMotivo.Text,
                     Observaciones = rtbObservaciones.Text,
                     FechaCreacion = DateTime.Now,
@@ -270,7 +270,7 @@ namespace EMR_SantaClotilde
                 citaExistente.PacienteId = (int)cmbPaciente.SelectedValue;
                 citaExistente.MedicoId = (int)cmbMedico.SelectedValue;
                 citaExistente.FechaHora = dtFecha.Value;
-                citaExistente.Estado = cmbEstado.Text;
+                citaExistente.Estado = cmbEstado.Text.ToLower();
                 citaExistente.Tipo = cmbTipo.Text.ToLower();
                 citaExistente.Motivo = cmbMotivo.Text.ToLower();
                 citaExistente.AdicionalMotivo = richMotivo.Text;
